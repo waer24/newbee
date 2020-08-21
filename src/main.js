@@ -3,7 +3,6 @@ import App from './App.vue';
 import router from './router/index';
 import store from './store';
 import 'lib-flexible';
-import './views/icon-svg/icon-svg.js';
 
 import { button } from 'vant';
 

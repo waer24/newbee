@@ -7,12 +7,15 @@
 <script>
 export default {
   name: 'icon-svg',
+
   props: {
     iconClass: {
       type: String,
       required: true,
     },
   },
+  /*
+  icon-username */
   computed: {
     iconName() {
       return `#icon-${this.iconClass}`;
@@ -21,7 +24,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" type="text/css">
+<style>
 .icon {
   width: 1em;
   height: 1em;

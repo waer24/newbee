@@ -1,19 +1,18 @@
 <template>
   <div class="home">
-    <div class="font">
-      <icon-svg icon-class="home" class="icon"></icon-svg>
+    redreddsdsd
+    <div class="icons">
+      <i class="iconfont icondelete"></i>
+      <!--  <icon-svg icon-class="delete">shanchu</icon-svg> -->
     </div>
     <hr />
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-home" />
-    </svg>
+
     <van-button type="primary">button</van-button>
   </div>
 </template>
 
 <script>
-// import iconSvg from './../views/icon-svg/icon-svg';
-
+// import iconSvg from './../views/icon-svg/icon-svg.vue';
 export default {
   name: 'singleQuote',
   props: {
@@ -37,13 +36,15 @@ export default {
     width: 80px;
     font-size: 18px; // todo uppercase
   }
-}
-
-.icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
+  .icons {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+  }
+  i {
+    color: red;
+  }
 }
 </style>

@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <link
+      rel="stylesheet"
+      href="//at.alicdn.com/t/font_2018670_nwu2mxedihk.css"
+    />
   </head>
   <body>
     <noscript>
@@ -18,9 +22,7 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <!-- 引入线上的iconfont -->
-    <script
-      type="text/javascript"
-      src="//at.alicdn.com/t/font_2018670_whz7u6isgx.js"
-    ></script>
+     <!--  <script src="<%= BASE_URL %>//at.alicdn.com/t/font_2018670_nwu2mxedihk.js"></script> -->
+    <!-- 用symbol的方式不能成功显示，但是link的css形式可以 -->
   </body>
 </html>
