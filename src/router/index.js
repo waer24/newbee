@@ -3,11 +3,11 @@ import vueRouter from 'vue-router';
 vue.use(vueRouter);
 
 const routes = [
-  /*   {
+  {
     path: '/',
     name: 'Home',
-    component: () => import('./../components/home.vue'),
-  }, */
+    redirect: '/home',
+  },
   {
     path: '/home',
     component: () => import('./../components/home.vue'),
@@ -16,10 +16,24 @@ const routes = [
     },
   },
   {
-    path: '/about',
-    component: () => import('./../components/about.vue'),
+    path: '/category',
+    component: () => import('./../components/category.vue'),
     meta: {
-      index: 2, // 添加 meta 属性，约定 1 为第一级
+      index: 1, // 添加 meta 属性，约定 1 为第一级
+    },
+  },
+  {
+    path: '/shopcar',
+    component: () => import('./../components/shopcar.vue'),
+    meta: {
+      index: 1, // 添加 meta 属性，约定 1 为第一级
+    },
+  },
+  {
+    path: '/user',
+    component: () => import('./../components/user.vue'),
+    meta: {
+      index: 1, // 添加 meta 属性，约定 1 为第一级
     },
   },
 ];

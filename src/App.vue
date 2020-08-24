@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/home">home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <transition :name="transitionName">
       <router-view class="router-view"></router-view>
     </transition>
@@ -37,14 +33,8 @@ export default {
 
 <style lang="scss" scoped>
 @import './common/style/mixin.scss';
-
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: $global-font-color;
 }
 #nav {
   position: absolute;
@@ -53,7 +43,6 @@ export default {
   z-index: 999;
 }
 .router-view {
-  padding-top: 2rem;
   width: 100%;
   height: auto;
   position: absolute;

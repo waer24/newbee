@@ -1,25 +1,36 @@
 <template>
-  <div class="home">
-    home，我是home页面啊
-    <!--   <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-delete" />
-    </svg> -->
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="home-wrap">
+    <v-header></v-header>
+    <section class="content">
+      <v-swiper></v-swiper>
+    </section>
+    <footer class="footer"><v-nav></v-nav></footer>
+
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './HelloWorld.vue';
+import vNav from './../views/v-nav';
+import vHeader from './../views/v-header';
+import vSwiper from './../views/v-swiper';
 
 export default {
-  components: {
-    HelloWorld,
-  },
+  components: { vNav, vHeader, vSwiper },
 };
 </script>
 
 <style scoped lang="scss">
-.home {
-  background-color: lightgray;
+@import './../common/style/mixin.scss';
+
+.home-wrap {
+  background-color: $home-bg;
+  .content {
+    min-height: calc(100vh - 60px); // css stickey
+  }
+  .footer {
+    height: 60px; // css stickey
+    overflow: hidden;
+  }
 }
 </style>
