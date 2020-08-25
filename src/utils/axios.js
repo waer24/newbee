@@ -1,10 +1,10 @@
-import axios from 'axois';
-import { Toast, Toast } from 'vant';
+import axios from 'axios';
+import { Toast } from 'vant';
 
 axios.defaults.baseURL =
   process.env.NODE_ENV == 'development'
-    ? '//api.newbee.ltd/api/v1'
-    : '//api.newbee.ltd/api/v1';
+    ? '//47.99.134.126:28019/api/v1'
+    : '//47.99.134.126:28019/api/v1';
 axios.defaults.withCredentials = true; //需要携带证书
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers['token'] = localStorage.getItem('token') || ''; // 通过token判断用户登录

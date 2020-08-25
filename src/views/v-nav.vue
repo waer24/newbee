@@ -33,7 +33,7 @@ export default {};
   width: 100%;
   height: 60px;
   position: fixed;
-
+  background-color: $fc;
   .nav-inner {
     height: 100%;
     display: flex;
