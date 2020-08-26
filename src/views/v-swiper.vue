@@ -1,22 +1,22 @@
 <template>
   <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-    <van-swipe-item
-      ><img src="./../assets/phone.jpg" alt="" width="100%"
-    /></van-swipe-item>
-    <van-swipe-item
-      ><img src="./../assets/phone.jpg" alt="" width="100%"
-    /></van-swipe-item>
-    <van-swipe-item
-      ><img src="./../assets/phone.jpg" alt="" width="100%"
-    /></van-swipe-item>
-    <van-swipe-item
-      ><img src="./../assets/phone.jpg" alt="" width="100%"
+    <van-swipe-item v-for="(item, index) in list" :key="index"
+      ><img :src="item.carouselUrl" alt="" width="100%"
     /></van-swipe-item>
   </van-swipe>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    list: {
+      type: Array,
+      default: () => {
+        [];
+      },
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

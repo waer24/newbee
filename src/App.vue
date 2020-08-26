@@ -12,6 +12,8 @@ export default {
   data() {
     return {
       transitionName: 'slide-left',
+      isShowNav: true,
+      showNanList: ['/', 'home', 'category', 'cart', 'user'], // 该变量为需要导航栏的数组
     };
   },
 
@@ -26,6 +28,10 @@ export default {
       } else {
         this.transitionName = ''; // 同级
       }
+      // 判断是否显示底部导航栏
+      this.showNanList.includes(to.path)
+        ? (this.isShowNav = true)
+        : (this.isShowNav = false);
     },
   },
 };

@@ -1,7 +1,12 @@
 <!--  -->
 <template>
   <div class="category-wrap">
-    <section class="content">category</section>
+    <section class="content">
+      <div class="seah">
+        <span><i class="iconfont"></i></span>
+      </div>
+      <div></div>
+    </section>
     <footer class="footer">
       <v-nav></v-nav>
     </footer>
