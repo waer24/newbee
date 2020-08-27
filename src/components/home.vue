@@ -42,6 +42,7 @@
                 class="sub-item"
                 v-for="item in hotGoodList"
                 :key="item.goodsId"
+                @click="getDetail(item.goodsId)"
               >
                 <img
                   :src="getImgUrl(item.goodsCoverImg)"
@@ -61,6 +62,7 @@
                 class="sub-item"
                 v-for="item in recommandList"
                 :key="item.goodsId"
+                @click="getDetail(item.goodsId)"
               >
                 <img
                   :src="getImgUrl(item.goodsCoverImg)"
@@ -75,10 +77,9 @@
           </li>
         </ul>
       </div>
+      <router-view></router-view>
     </section>
     <footer class="footer"><v-nav></v-nav></footer>
-
-    <router-view></router-view>
   </div>
 </template>
 
@@ -119,9 +120,8 @@ export default {
   methods: {
     getDetail(id) {
       this.$router.push({
-        path: `/${id}`,
+        path: `/home/${id}`,
       });
-      // console.log(this.path);
     },
 
     /*
