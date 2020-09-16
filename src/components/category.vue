@@ -2,12 +2,16 @@
 <template>
   <div class="category-wrap">
     <header class="header">
-      <span class="icon-wrap" @click="goBack()"
-        ><i class="iconfont iconback icons"></i
-      ></span>
-      <div class="seah">
-        <span class="seah-icon"><i class="iconfont iconsearch icons"></i></span>
-        <input class="ipt" type="text" placeholder="enter to search" />
+      <div class="header-inner">
+        <span class="icon-wrap" @click="goBack()"
+          ><i class="iconfont iconback icons"></i
+        ></span>
+        <div class="seah">
+          <span class="seah-icon"
+            ><i class="iconfont iconsearch icons"></i
+          ></span>
+          <input class="ipt" type="text" placeholder="enter to search" />
+        </div>
       </div>
     </header>
     <section class="content">
@@ -24,33 +28,38 @@
         </ul>
       </div>
       <!-- right -->
-      <div class="right-summry">
-        <ul>
-          <li v-for="(item, categoryId) in categoryList" :key="categoryId">
-            <ul>
-              <li
-                v-for="(item, categoryId) in item.secondLevelCategoryVOS"
-                :key="categoryId"
-              >
-                <h2 class="title">{{ item.categoryName }}</h2>
+      <scroll :scroll-data="categoryList">
+        <div class="right-summry">
+          <ul>
+            <li v-for="(item, categoryId) in categoryList" :key="categoryId">
+              <ul>
+                <li
+                  v-for="(item, categoryId) in item.secondLevelCategoryVOS"
+                  :key="categoryId"
+                >
+                  <h2 class="title">{{ item.categoryName }}</h2>
 
-                <ul>
-                  <li
-                    class="sub"
-                    v-for="(subItem, categoryId) in item.thirdLevelCategoryVOS"
-                    :key="categoryId"
-                  >
-                    <div class="sub-inner">
-                      <span><i class="iconfont icontag"></i></span>
-                      <span class="subtitle"> {{ subItem.categoryName }}</span>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+                  <ul>
+                    <li
+                      class="sub"
+                      v-for="(subItem,
+                      categoryId) in item.thirdLevelCategoryVOS"
+                      :key="categoryId"
+                    >
+                      <div class="sub-inner">
+                        <span><i class="iconfont icontag"></i></span>
+                        <span class="subtitle">
+                          {{ subItem.categoryName }}</span
+                        >
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </scroll>
     </section>
     <footer class="footer">
       <v-nav></v-nav>
@@ -61,6 +70,7 @@
 <script>
 import vNav from "./../views/v-nav";
 import { getCategory } from "./../api/category.js";
+import scroll from "./../views/scroll";
 
 export default {
   data() {
@@ -87,7 +97,7 @@ export default {
       console.log(this.secList);
     },
   },
-  components: { vNav },
+  components: { vNav, scroll },
 };
 </script>
 <style lang="scss" scoped>
@@ -96,12 +106,16 @@ export default {
 .category-wrap {
   background-color: $home-bg;
   .header {
-    display: flex;
-    justify-content: center;
+    position: fixed;
+    width: 100%;
+    .header-inner {
+      display: flex;
+      justify-content: center;
 
-    height: 50px;
+      height: 50px;
 
-    @include border-1px(#ccc);
+      @include border-1px(#ccc);
+    }
 
     .icon-wrap {
       position: absolute;
@@ -145,6 +159,7 @@ export default {
     }
   }
   .content {
+    margin-top: 34px;
     min-height: calc(100vh - 100px); // css stickey
     display: flex;
     // justify-content: center;

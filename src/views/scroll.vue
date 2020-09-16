@@ -107,9 +107,6 @@ export default {
       setTimeout(() => {
         this.refresh();
       }, this.refreshDelay);
-      /*  this.$nextTick(() => {
-        this.refresh();
-      }); */
     },
   },
 };
