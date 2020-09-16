@@ -1,11 +1,30 @@
 <!--  -->
 <template>
   <div class="category-wrap">
-    <section class="content">
+    <header class="header">
+      <span class="icon-wrap" @click="goBack()"
+        ><i class="iconfont iconback icons"></i
+      ></span>
       <div class="seah">
-        <span><i class="iconfont"></i></span>
+        <span class="seah-icon"><i class="iconfont iconsearch icons"></i></span>
+        <input class="ipt" type="text" placeholder="enter to search" />
       </div>
-      <div></div>
+    </header>
+    <section class="content">
+      <div class="left-summry">
+        <ul>
+          <li v-for="(item, categoryId) in categoryList" :key="categoryId">
+            {{ item.categoryName }}
+          </li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li v-for="(item, categoryId) in categoryList" :key="categoryId">
+            <!--   {{item.}} -->
+          </li>
+        </ul>
+      </div>
     </section>
     <footer class="footer">
       <v-nav></v-nav>
@@ -14,34 +33,33 @@
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
-import vNav from './../views/v-nav';
+import vNav from "./../views/v-nav";
+import { getCategory } from "./../api/category.js";
 
 export default {
-  //import引入的组件需要注入到对象中才能使用
-  components: { vNav },
   data() {
-    //这里存放数据
-    return {};
+    return {
+      categoryList: [],
+    };
   },
-  //监听属性 类似于data概念
+  created() {
+    this.category();
+  },
   computed: {},
-  //监控data中的数据变化
+
   watch: {},
-  //方法集合
-  methods: {},
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
-  beforeCreate() {}, //生命周期 - 创建之前
-  beforeMount() {}, //生命周期 - 挂载之前
-  beforeUpdate() {}, //生命周期 - 更新之前
-  updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {}, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
-  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+    async category(id) {
+      const { data } = await getCategory();
+      this.categoryList = data;
+      this.secList = this.categoryList[id];
+      console.log(this.categoryList);
+    },
+  },
+  components: { vNav },
 };
 </script>
 <style lang="scss" scoped>
@@ -49,12 +67,63 @@ export default {
 
 .category-wrap {
   background-color: $home-bg;
+  .header {
+    display: flex;
+    justify-content: center;
+
+    height: 50px;
+
+@include border-1px(#ccc);
+
+    .icon-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 30px;
+      height: 30px;
+      padding: 8px;
+      .icons {
+        font-size: 24px;
+      }
+    }
+    .seah {
+      display: flex;
+      align-items: center;
+
+      width: 80%;
+      .seah-icon {
+        position: relative;
+
+        padding-left: 20px;
+        .icons {
+          font-size: 24px;
+
+          position: absolute;
+          top: -11px;
+        }
+      }
+      .ipt {
+        line-height: 28px;
+
+        width: 100%;
+        padding-left: 20px;
+
+        text-indent: 18px;
+
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+    }
+  }
   .content {
-    min-height: calc(100vh - 60px); // css stickey
+    min-height: calc(100vh - 100px); // css stickey
   }
   .footer {
-    height: 60px; // css stickey
     overflow: hidden;
+
+    height: 60px; // css stickey
   }
 }
+
 </style>

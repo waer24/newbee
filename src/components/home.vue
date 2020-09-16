@@ -84,10 +84,10 @@
 </template>
 
 <script>
-import vNav from './../views/v-nav';
-import homeSearch from './../views/home-search';
-import vSwiper from './../views/v-swiper';
-import { getHome } from './../api/home.js';
+import vNav from "./../views/v-nav";
+import homeSearch from "./../views/home-search";
+import vSwiper from "./../views/v-swiper";
+import { getHome } from "./../api/home.js";
 //import { goodsDetail } from './../api/goods';
 
 export default {
@@ -99,22 +99,22 @@ export default {
       hotGoodList: [],
       recommandList: [],
       navCrabList: [
-        { name: '新蜂超市', icon: 'iconchaoshi' },
-        { name: '新蜂服饰', icon: 'iconclothes' },
-        { name: '全球购', icon: 'iconglobal' },
-        { name: '新蜂生鲜', icon: 'iconshrimp' },
-        { name: '新蜂到家', icon: 'iconsendtohome' },
-        { name: '充值缴费', icon: 'iconrecharge' },
-        { name: '9.9元拼', icon: 'iconbuy' },
-        { name: '领劵', icon: 'iconcoupon' },
-        { name: '省钱', icon: 'icondiscount' },
-        { name: '全部', icon: 'iconall' },
+        { name: "新蜂超市", icon: "iconchaoshi" },
+        { name: "新蜂服饰", icon: "iconclothes" },
+        { name: "全球购", icon: "iconglobal" },
+        { name: "新蜂生鲜", icon: "iconshrimp" },
+        { name: "新蜂到家", icon: "iconsendtohome" },
+        { name: "充值缴费", icon: "iconrecharge" },
+        { name: "9.9元拼", icon: "iconbuy" },
+        { name: "领劵", icon: "iconcoupon" },
+        { name: "省钱", icon: "icondiscount" },
+        { name: "全部", icon: "iconall" },
       ],
     };
   },
   mounted() {
     this.home();
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
   },
   computed: {},
   methods: {
@@ -131,18 +131,18 @@ export default {
           this.hotCityList = res.data;
           return this.hotCityList;
         }
-      }); 
+      });
      */
     async home() {
       const { data } = await getHome();
-
       (this.carouselList = data.carousels), // console.log('data', { data });
         (this.newGoodList = data.newGoodses);
       this.hotGoodList = data.hotGoodses;
       this.recommandList = data.recommendGoodses;
     },
+
     getImgUrl(url) {
-      return url.indexOf('oss-cn-beijing') > -1
+      return url.indexOf("oss-cn-beijing") > -1
         ? `${url}`
         : `//lmall.xinfeng.site${url}`;
     },
@@ -161,7 +161,7 @@ export default {
   },
   beforeDestroy() {
     // 离开时销毁，否则会报错
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll);
   },
   components: { vNav, homeSearch, vSwiper },
 };
@@ -170,10 +170,11 @@ export default {
 <style scoped lang="scss">
 @import './../common/style/mixin.scss';
 .home-wrap {
-  background-color: $home-bg;
   margin-bottom: 60px;
+
+  background-color: $home-bg;
   .header {
-    position: sticky;
+    position:         sticky;
     position: -webkit-sticky;
     top: 0;
   }
@@ -200,21 +201,27 @@ export default {
       }
     }
     .nav-crab {
-      padding: 6px 0;
       overflow: hidden;
+
+      padding: 6px 0;
+
       background-color: $fc;
       .nav-crab-list {
         display: flex;
+        align-items: center;
         flex-flow: row wrap;
         justify-content: space-around;
-        align-items: center;
         .item {
-          text-align: center;
-          padding: 4px 5px;
           flex: 0 0 60px;
+
+          padding: 4px 5px;
+
+          text-align: center;
           .icons {
-            display: block;
             font-size: 26px;
+
+            display: block;
+
             color: $primary;
           }
         }
@@ -224,43 +231,56 @@ export default {
       padding-bottom: 60px;
       .item {
         .item-title {
-          padding: 10px 0;
           font-size: 18px;
           font-weight: 400;
-          color: $primary;
-          text-align: center;
-          background-color: $bc;
+
           margin: 0;
+          padding: 10px 0;
+
+          text-align: center;
+
+          color: $primary;
+          background-color: $bc;
         }
         .sub-item {
+          display: inline-flex;
+          align-items: center;
+          flex-flow: row wrap;
+          justify-content: center;
+
           box-sizing: border-box;
           width: 50%;
-          display: inline-flex;
-          flex-flow: row wrap;
-          align-items: center;
-          justify-content: center;
-          background-color: $fc;
+
           border: 1px solid $bc;
+          background-color: $fc;
           .desc {
             font-size: 14px;
+
             color: $global-font-color;
-            @include hiddenWord;
+
+@include hiddenWord;
           }
           .num {
             font-size: 16px;
-            margin-top: 0;
-            color: $primary;
             font-weight: 500;
+
+            margin-top: 0;
+
+            color: $primary;
           }
         }
       }
     }
   }
   .footer {
-    height: 60px; // css stickey
-    overflow: hidden;
     position: fixed;
     bottom: 0;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 50px; // css stickey
   }
 }
+
 </style>
