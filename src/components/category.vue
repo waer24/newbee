@@ -17,28 +17,34 @@
     <section class="content">
       <!-- left -->
       <div class="left-summry">
-        <ul>
-          <li
-            class="item"
-            v-for="(item, categoryId) in categoryList"
-            :key="categoryId"
-          >
-            {{ item.categoryName }}
-          </li>
-        </ul>
+        <scroll :scroll-data="categoryList">
+          <ul>
+            <li
+              class="item"
+              v-for="(item, categoryId) in categoryList"
+              :key="categoryId"
+              @click="setChoose(categoryId)"
+            >
+              {{ item.categoryName }}
+            </li>
+          </ul>
+        </scroll>
       </div>
+
       <!-- right -->
-      <scroll :scroll-data="categoryList">
-        <div class="right-summry">
+     <div  class="right-summry">
+          <div class="right-summry-inner">
+        <scroll :scroll-data="categoryList">
           <ul>
             <li v-for="(item, categoryId) in categoryList" :key="categoryId">
-              <ul>
-                <li
+              <van-collapse v-model="activeNames">
+                <van-collapse-item
+                  class="title"
+                  :title="item.categoryName"
+                  :name="item.categoryName"
                   v-for="(item, categoryId) in item.secondLevelCategoryVOS"
                   :key="categoryId"
                 >
-                  <h2 class="title">{{ item.categoryName }}</h2>
-
                   <ul>
                     <li
                       class="sub"
@@ -54,12 +60,13 @@
                       </div>
                     </li>
                   </ul>
-                </li>
-              </ul>
+                </van-collapse-item>
+              </van-collapse>
             </li>
           </ul>
-        </div>
-      </scroll>
+        </scroll>
+      </div>
+     </div>
     </section>
     <footer class="footer">
       <v-nav></v-nav>
@@ -76,6 +83,7 @@ export default {
   data() {
     return {
       categoryList: [],
+      activeNames: [],
     };
   },
   created() {
@@ -96,6 +104,9 @@ export default {
       console.log(this.categoryList);
       console.log(this.secList);
     },
+    setChoose(id) {
+      console.log(id);
+    },
   },
   components: { vNav, scroll },
 };
@@ -107,7 +118,9 @@ export default {
   background-color: $home-bg;
   .header {
     position: fixed;
+    background-color: #fff;
     width: 100%;
+    z-index: 1;
     .header-inner {
       display: flex;
       justify-content: center;
@@ -159,7 +172,7 @@ export default {
     }
   }
   .content {
-    margin-top: 34px;
+    margin-top: 45px;
     min-height: calc(100vh - 100px); // css stickey
     display: flex;
     // justify-content: center;
@@ -171,13 +184,13 @@ export default {
         padding: 20px 10px;
       }
     }
-    .right-summry {
+    .right-summry{
+         .right-summry-inner {
       width: 100%;
       padding: 10px 10px 10px 0;
       overflow: hidden;
       .title {
         font-size: 18px;
-        padding: 10px;
       }
       .sub {
         font-size: 18px;
@@ -193,6 +206,7 @@ export default {
           text-align: center;
         }
       }
+    }
     }
   }
   .footer {
