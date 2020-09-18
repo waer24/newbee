@@ -15,58 +15,64 @@
       </div>
     </header>
     <section class="content">
-      <!-- left -->
-      <div class="left-summry">
-        <scroll :scroll-data="categoryList">
-          <ul>
-            <li
-              class="item"
-              v-for="(item, categoryId) in categoryList"
-              :key="categoryId"
-              @click="setChoose(categoryId)"
-            >
-              {{ item.categoryName }}
-            </li>
-          </ul>
-        </scroll>
-      </div>
+      <div class="content-inner">
+        <!-- left -->
 
-      <!-- right -->
-     <div  class="right-summry">
-          <div class="right-summry-inner">
         <scroll :scroll-data="categoryList">
-          <ul>
-            <li v-for="(item, categoryId) in categoryList" :key="categoryId">
-              <van-collapse v-model="activeNames">
-                <van-collapse-item
-                  class="title"
-                  :title="item.categoryName"
-                  :name="item.categoryName"
-                  v-for="(item, categoryId) in item.secondLevelCategoryVOS"
+          <div class="left-summry">
+            <ul>
+              <li
+                class="summry-item"
+                v-for="(item, categoryId) in categoryList"
+                :key="categoryId"
+                @click="setChoose(categoryId)"
+              >
+                {{ item.categoryName }}
+              </li>
+            </ul>
+          </div>
+        </scroll>
+
+        <!-- right -->
+        <scroll :scroll-data="categoryList">
+          <div class="right-summry">
+            <div class="right-summry-inner">
+              <ul>
+                <li
+                  v-for="(item, categoryId) in categoryList"
                   :key="categoryId"
                 >
-                  <ul>
-                    <li
-                      class="sub"
-                      v-for="(subItem,
-                      categoryId) in item.thirdLevelCategoryVOS"
+                  <van-collapse v-model="activeNames">
+                    <van-collapse-item
+                      class="title"
+                      :title="item.categoryName"
+                      :name="item.categoryName"
+                      v-for="(item, categoryId) in item.secondLevelCategoryVOS"
                       :key="categoryId"
                     >
-                      <div class="sub-inner">
-                        <span><i class="iconfont icontag"></i></span>
-                        <span class="subtitle">
-                          {{ subItem.categoryName }}</span
+                      <ul>
+                        <li
+                          class="sub"
+                          v-for="(subItem,
+                          categoryId) in item.thirdLevelCategoryVOS"
+                          :key="categoryId"
                         >
-                      </div>
-                    </li>
-                  </ul>
-                </van-collapse-item>
-              </van-collapse>
-            </li>
-          </ul>
+                          <div class="sub-inner">
+                            <span><i class="iconfont icontag"></i></span>
+                            <span class="subtitle">
+                              {{ subItem.categoryName }}</span
+                            >
+                          </div>
+                        </li>
+                      </ul>
+                    </van-collapse-item>
+                  </van-collapse>
+                </li>
+              </ul>
+            </div>
+          </div>
         </scroll>
       </div>
-     </div>
     </section>
     <footer class="footer">
       <v-nav></v-nav>
@@ -112,22 +118,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./../common/style/mixin.scss";
+@import './../common/style/mixin.scss';
 
 .category-wrap {
+  width: 100%;
+  height: 100%;
+
   background-color: $home-bg;
   .header {
     position: fixed;
-    background-color: #fff;
-    width: 100%;
     z-index: 1;
+
+    width: 100%;
+
+    background-color: #fff;
+
     .header-inner {
       display: flex;
       justify-content: center;
 
       height: 50px;
 
-      @include border-1px(#ccc);
+@include border-1px(#ccc);
     }
 
     .icon-wrap {
@@ -138,6 +150,7 @@ export default {
       width: 30px;
       height: 30px;
       padding: 8px;
+
       .icons {
         font-size: 24px;
       }
@@ -147,10 +160,12 @@ export default {
       align-items: center;
 
       width: 80%;
+
       .seah-icon {
         position: relative;
 
         padding-left: 20px;
+
         .icons {
           font-size: 24px;
 
@@ -172,46 +187,76 @@ export default {
     }
   }
   .content {
+    position: relative;
+
+    width: 100%;
     margin-top: 45px;
-    min-height: calc(100vh - 100px); // css stickey
-    display: flex;
-    // justify-content: center;
-    .left-summry {
-      width: 140px;
-      flex: 0 0 140px;
-      .item {
-        font-size: 16px;
-        padding: 20px 10px;
-      }
-    }
-    .right-summry{
-         .right-summry-inner {
-      width: 100%;
-      padding: 10px 10px 10px 0;
-      overflow: hidden;
-      .title {
-        font-size: 18px;
-      }
-      .sub {
-        font-size: 18px;
-        display: inline-table;
-        width: 50%;
-        padding: 10px 5px;
-        box-sizing: border-box;
-        .sub-inner {
+    margin-bottom: 60px;
+    .content-inner {
+      display: flex;
+
+      min-height: calc(100vh - 100px);
+
+      .left-summry {
+        flex: 0 0 140px;
+
+        width: 140px;
+
+        .summry-item {
           font-size: 16px;
-          display: flex;
-          flex-direction: column;
-          flex-wrap: wrap;
-          text-align: center;
+
+          position: relative;
+
+          padding: 20px 10px;
+
+          &.current {
+            color: $primary;
+          }
+        }
+      }
+      .right-summry {
+        width: 100%;
+        .right-summry-inner {
+          overflow: hidden;
+
+          width: 100%;
+          padding: 10px 10px 10px 0;
+
+          .title {
+            font-size: 18px;
+          }
+          .sub {
+            font-size: 18px;
+
+            display: inline-table;
+
+            box-sizing: border-box;
+            width: 50%;
+            padding: 10px 5px;
+
+            .sub-inner {
+              font-size: 16px;
+
+              display: flex;
+              flex-direction: column;
+              flex-wrap: wrap;
+
+              text-align: center;
+            }
+          }
         }
       }
     }
-    }
   }
   .footer {
+    position: absolute;
+    bottom: 0;
+
     overflow: hidden;
-    height: 60px; // css stickey
+
+    width: 100%;
+    height: 1.6rem; // css sticky
   }
 }
+
 </style>
