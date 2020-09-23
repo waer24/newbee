@@ -14,48 +14,56 @@
         </div>
       </div>
     </header>
-    <section class="content">
-      <div class="content-inner">
-        <!-- left -->
+    <section class="content-outer">
+      <section class="content">
+        <div class="content-inner">
+          <!-- left -->
 
-        <scroll :scroll-data="categoryList">
           <div class="left-summry">
-            <ul>
-              <li
-                class="summry-item"
-                v-for="(item, categoryId) in categoryList"
-                :key="categoryId"
-                @click="setChoose(categoryId)"
-              >
-                {{ item.categoryName }}
-              </li>
-            </ul>
-          </div>
-        </scroll>
-
-        <!-- right -->
-        <scroll :scroll-data="categoryList">
-          <div class="right-summry">
-            <div class="right-summry-inner">
+            <scroll :scroll-data="categoryList" class="left-inner">
+              <!--  :class="{ current: currentIndex === index }" -->
               <ul>
                 <li
-                  v-for="(item, categoryId) in categoryList"
-                  :key="categoryId"
+                  class="summry-item"
+                  v-for="(item, index) in categoryList"
+                  :key="index"
+                  ref="leftItem"
+                  @click="getCategoryItem(index)"
+                >
+                  {{ item.categoryName }}
+                </li>
+              </ul>
+            </scroll>
+          </div>
+
+          <!-- right -->
+          <scroll
+            :scroll-data="categoryList"
+            @scrollEvent="scrollList"
+            class="scroll-rt"
+            ref="categoryItem"
+          >
+            <div class="right-summry">
+              <ul class="right-inner">
+                <li
+                  v-for="(item, index) in categoryList"
+                  :key="index"
+                  ref="categoryTitle"
                 >
                   <van-collapse v-model="activeNames">
                     <van-collapse-item
                       class="title"
                       :title="item.categoryName"
                       :name="item.categoryName"
-                      v-for="(item, categoryId) in item.secondLevelCategoryVOS"
-                      :key="categoryId"
+                      v-for="(item, index) in item.secondLevelCategoryVOS"
+                      :key="index"
                     >
                       <ul>
                         <li
                           class="sub"
-                          v-for="(subItem,
-                          categoryId) in item.thirdLevelCategoryVOS"
-                          :key="categoryId"
+                          v-for="(subItem, index) in item.thirdLevelCategoryVOS"
+                          :key="index"
+                          @click="itemDetail(subItem.categoryId)"
                         >
                           <div class="sub-inner">
                             <span><i class="iconfont icontag"></i></span>
@@ -70,10 +78,11 @@
                 </li>
               </ul>
             </div>
-          </div>
-        </scroll>
-      </div>
+          </scroll>
+        </div>
+      </section>
     </section>
+    <router-view></router-view>
     <footer class="footer">
       <v-nav></v-nav>
     </footer>
@@ -90,15 +99,33 @@ export default {
     return {
       categoryList: [],
       activeNames: [],
+      scrollY: 0, // 实时获取Y轴鼠标的滚动位置
     };
   },
   created() {
     this.category();
   },
-  computed: {},
-
+  computed: {
+    // currentIndex() {},
+  },
   watch: {},
   methods: {
+    scrollList(pos) {
+      // 实时获取滚动到y轴的位置，用户会不断触发scroll事件，因此需要监听scroll，同时也是回应scroll组件中子组件的绑定事件
+      this.scrollY = Math.abs(Math.round(pos.y)); // scroll事件本身就包含对x，y的坐标点
+      console.log(this.scrollY);
+      console.log(22);
+      /*
+      function onScroll(pos) {
+    console.log(`Now position is x: ${pos.x}, y: ${pos.y}`)
+} */
+    },
+    itemDetail(id) {
+      this.$router.push({
+        path: `/category/${id}`,
+      });
+    },
+
     goBack() {
       this.$router.go(-1);
     },
@@ -106,12 +133,15 @@ export default {
       const { data } = await getCategory();
       this.categoryList = data;
       this.secList = this.categoryList[0].secondLevelCategoryVOS;
-
       console.log(this.categoryList);
-      console.log(this.secList);
+      // console.log(this.secList);
     },
-    setChoose(id) {
-      console.log(id);
+    getCategoryItem(index) {
+      this.$refs.categoryItem.refresh();
+      this.$refs.categoryItem.scrollToElement(
+        this.$refs.categoryTitle[index],
+        300
+      );
     },
   },
   components: { vNav, scroll },
@@ -186,62 +216,80 @@ export default {
       }
     }
   }
-  .content {
+  .content-outer {
     position: relative;
 
     width: 100%;
-    margin-top: 45px;
-    margin-bottom: 60px;
-    .content-inner {
-      display: flex;
+    height: calc(100vh - 60px);
+    .content {
+      position: absolute;
+      top: 45px;
+      bottom: 60px;
 
-      min-height: calc(100vh - 100px);
+      width: 100%;
+      .content-inner {
+        display: flex;
+        overflow: hidden;
 
-      .left-summry {
-        flex: 0 0 140px;
+        height: 100%;
 
-        width: 140px;
+        // min-height: calc(100vh - 100px);
 
-        .summry-item {
-          font-size: 16px;
-
+        .left-summry {
           position: relative;
 
-          padding: 20px 10px;
+          height: 100%;
+          .left-inner {
+            flex: 0 0 140px;
 
-          &.current {
-            color: $primary;
+            width: 140px;
+          }
+
+          .summry-item {
+            font-size: 16px;
+
+            position: relative;
+
+            padding: 20px 10px;
+
+            &.current {
+              color: $primary;
+            }
           }
         }
-      }
-      .right-summry {
-        width: 100%;
-        .right-summry-inner {
-          overflow: hidden;
+        .scroll-rt {
+          width: calc(100% - 120px);
+          .right-summry {
+            width: 100%;
+            .right-inner {
+              overflow: hidden;
+              flex: 1;
 
-          width: 100%;
-          padding: 10px 10px 10px 0;
+              width: 100%;
+              min-height: 700px;
+              padding: 10px 10px 10px 0;
+              .title {
+                font-size: 18px;
+              }
+              .sub {
+                font-size: 18px;
 
-          .title {
-            font-size: 18px;
-          }
-          .sub {
-            font-size: 18px;
+                display: inline-table;
 
-            display: inline-table;
+                box-sizing: border-box;
+                width: 50%;
+                padding: 10px 5px;
 
-            box-sizing: border-box;
-            width: 50%;
-            padding: 10px 5px;
+                .sub-inner {
+                  font-size: 16px;
 
-            .sub-inner {
-              font-size: 16px;
+                  display: flex;
+                  flex-direction: column;
+                  flex-wrap: wrap;
 
-              display: flex;
-              flex-direction: column;
-              flex-wrap: wrap;
-
-              text-align: center;
+                  text-align: center;
+                }
+              }
             }
           }
         }
@@ -249,13 +297,18 @@ export default {
     }
   }
   .footer {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
 
-    overflow: hidden;
+/*         position: absolute;
+        bottom: 0;
+        overflow: hidden;
+        width: 100%;
+        height: 60px; // css sticky */
 
     width: 100%;
-    height: 1.6rem; // css sticky
+    height: 60px;
+
+    background-color: #fff;
   }
 }
 

@@ -38,3 +38,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 9/14-20
 
 1. 左右滚动的关键点: 这里要注意一下左右两个 scroll-view 外层只能包一个父级 view，不然他们俩是同步滚动的
+
+9/21 - 27
+TODO:
+
+1. 点击折叠面板的时候，scroll 的高度发生变化，无法及时刷新，获取最新的高度变化
+2. 不会显示出 pos.y 的值

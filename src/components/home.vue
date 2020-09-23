@@ -168,13 +168,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import './../common/style/mixin.scss';
+@import "./../common/style/mixin.scss";
 .home-wrap {
   margin-bottom: 60px;
 
   background-color: $home-bg;
   .header {
-    position:         sticky;
+    position: sticky;
     position: -webkit-sticky;
     top: 0;
   }
@@ -258,7 +258,7 @@ export default {
 
             color: $global-font-color;
 
-@include hiddenWord;
+            @include hiddenWord;
           }
           .num {
             font-size: 16px;
@@ -279,8 +279,7 @@ export default {
     overflow: hidden;
 
     width: 100%;
-    height: 50px; // css stickey
+    height: 60px; // css stickey
   }
 }
-
 </style>
