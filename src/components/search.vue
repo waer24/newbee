@@ -15,16 +15,22 @@
       </form>
     </header>
     <div class="tab">
-      <ul>
-        <li class="tab-item" v-for="(item, index) in tabList" :key="index" :class="{'active':isActive=== item }">
-          {{ tabList[index] }}
+      <!--  <ul>
+        <li
+          class="tab-item"
+          v-for="(item, index) in menu"
+          :key="index"
+          :class="{ active: isActive === (item.value ? true : false) }"
+          @click="
+            isActive = item.value;
+            currentComp = item.comp;
+          "
+        >
+          {{ item.name }}
         </li>
-      </ul>
-      <!--  <van-tabs v-model="tabValue" color="#1baeae">
-        <van-tab title="推荐"></van-tab>
-        <van-tab title="新品">新品</van-tab>
-        <van-tab title="价格">价格</van-tab>
-      </van-tabs> -->
+      </ul> -->
+      <!-- TODO 暂时关闭，解决了user的问题再打开 -->
+      <div :is="currentComp" class="tab-text"></div>
     </div>
   </div>
 </template>
@@ -37,21 +43,23 @@ export default {
     return {
       searchValue: "",
       tabValue: "2",
-      tabList: ["推荐", "新品", "价格"],
+      isActive: "1", // 当前选中的li标签
+      currentComp: "div", // 当前选中的组件
+      /*  menu: [
+        { name: "推荐", value: "1", comp: "recommand" },
+        { name: "新品", value: "2", comp: "newGoods" },
+        { name: "价格", value: "3", comp: "goodsPrice" },
+      ],
+      comp需要不同的组件传递，暂时先做user，才有参数
+      */
     };
   },
-
-  computed: {},
-
-  watch: {},
 
   methods: {
     search() {
       Toast("hello");
     },
   },
-
-  created() {},
 };
 </script>
 <style lang="scss" scoped>
@@ -92,10 +100,13 @@ export default {
       color: $primary;
       border: 1px solid $primary;
       background-color: $bc;
+      &.active {
+        color: $bc;
+        background-color: $primary;
+      }
     }
-    &.active {
-      color: $bc;
-      background-color: $primary;
+    .tab-text {
+      padding: 10px;
     }
   }
 }

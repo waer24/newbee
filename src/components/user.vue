@@ -1,37 +1,100 @@
 <!--  -->
 <template>
-  <div class="">mine</div>
+  <div class="user-wrap">
+    <!--   <header class="header">
+      <span class="icon-wrap" @click="goBack()"
+        ><i class="iconfont iconback icons"></i
+      ></span>
+      <p class="login">登录</p>
+    </header> -->
+    <v-header :title="name" class="header"></v-header>
+    <div class="content">
+      <div class="image">
+        <img src="./../assets/logo.png" alt="" width="100%" height="100%" />
+      </div>
+      <div class="input-item">
+        <van-form @submit="onSubmit">
+          <van-field
+            v-model="username"
+            name="用户名"
+            label="用户名"
+            placeholder="用户名"
+            :rules="[{ required: true, message: '请填写用户名' }]"
+          />
+          <van-field
+            v-model="password"
+            type="password"
+            name="密码"
+            label="密码"
+            placeholder="密码"
+            :rules="[{ required: true, message: '请填写密码' }]"
+          />
+          <div style="margin: 16px;">
+            <van-button round block type="info" native-type="submit">
+              提交
+            </van-button>
+          </div>
+        </van-form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
-
+import vHeader from "./../views/v-header";
 export default {
-  //import引入的组件需要注入到对象中才能使用
-  components: {},
   data() {
     //这里存放数据
-    return {};
+    return {
+      name: "登录",
+      username: "", //  登录用户名
+      password: "", // 登录密码
+    };
   },
-  //监听属性 类似于data概念
-  computed: {},
-  //监控data中的数据变化
-  watch: {},
-  //方法集合
-  methods: {},
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
-  beforeCreate() {}, //生命周期 - 创建之前
-  beforeMount() {}, //生命周期 - 挂载之前
-  beforeUpdate() {}, //生命周期 - 更新之前
-  updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {}, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
-  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+  methods: {
+    onSubmit(values) {
+      console.log(values);
+    },
+  },
+  components: { vHeader },
 };
 </script>
 <style lang="scss" scoped>
+@import './../common/style/mixin.scss';
+.van-button--info {
+  background-color: $primary;
+}
+.user-wrap {
+  overflow: hidden;
+  .header {
+    line-height: 38px;
+
+    height: 40px;
+
+    .icon-wrap {
+      flex: 0 0 40px;
+
+      width: 40px;
+    }
+    .login {
+      font: 18px;
+    }
+  }
+  .content {
+    padding: 10px;
+
+    text-align: center;
+    .image {
+      display: block;
+
+      width: 100px;
+      height: 100px;
+      margin: 30px auto;
+    }
+    .input-item {
+      overflow: hidden;
+    }
+  }
+}
+
 </style>
