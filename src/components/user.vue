@@ -13,28 +13,7 @@
         <img src="./../assets/logo.png" alt="" width="100%" height="100%" />
       </div>
       <div class="input-item">
-        <van-form @submit="onSubmit">
-          <van-field
-            v-model="username"
-            name="用户名"
-            label="用户名"
-            placeholder="用户名"
-            :rules="[{ required: true, message: '请填写用户名' }]"
-          />
-          <van-field
-            v-model="password"
-            type="password"
-            name="密码"
-            label="密码"
-            placeholder="密码"
-            :rules="[{ required: true, message: '请填写密码' }]"
-          />
-          <div style="margin: 16px;">
-            <van-button round block type="info" native-type="submit">
-              提交
-            </van-button>
-          </div>
-        </van-form>
+
       </div>
     </div>
   </div>
@@ -42,6 +21,8 @@
 
 <script>
 import vHeader from "./../views/v-header";
+// import verify from "./../views/verify";
+
 export default {
   data() {
     //这里存放数据
@@ -52,11 +33,14 @@ export default {
     };
   },
   methods: {
+    toggleText() {
+      // return userId ? `已有登录账号` : `立即注册`;
+    },
     onSubmit(values) {
       console.log(values);
     },
   },
-  components: { vHeader },
+  components: { vHeader } /* verify */,
 };
 </script>
 <style lang="scss" scoped>
@@ -93,6 +77,14 @@ export default {
     }
     .input-item {
       overflow: hidden;
+      .verify-wrap {
+        overflow: hidden;
+      }
+      .signup {
+        font-size: 16px;
+
+        color: $verify-bg-color;
+      }
     }
   }
 }

@@ -6,6 +6,7 @@ import { Search } from "vant";
 import { Tab, Tabs } from "vant";
 import { Form } from "vant";
 import { Field } from "vant";
+import { Toast } from "vant";
 
 Vue.use(button);
 Vue.use(Swipe);
@@ -17,3 +18,4 @@ Vue.use(Tab);
 Vue.use(Tabs);
 Vue.use(Form);
 Vue.use(Field);
+Vue.use(Toast);
