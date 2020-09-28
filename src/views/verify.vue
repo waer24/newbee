@@ -6,7 +6,7 @@
       ref="moveDiv"
       @mousedown="mousedownFn($event)"
       class="handler handle_bg"
-      :class="{ handler_ok_bg: confirmSuccess }"
+      :class="{ 'handler_ok_bg': confirmSuccess }"
       style="position:absolute;top:0px;left:0px"
     ></div>
   </div>

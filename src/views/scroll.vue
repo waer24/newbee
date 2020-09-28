@@ -23,6 +23,7 @@ export default {
       default: false,
     },
     probeType: {
+      // 滚动的时候派发scroll事件
       type: Number,
       default: 1,
     },

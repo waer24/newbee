@@ -39,8 +39,15 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 1. 左右滚动的关键点: 这里要注意一下左右两个 scroll-view 外层只能包一个父级 view，不然他们俩是同步滚动的
 
-9/21 - 27
+9/27-20
+
+1. vant 折叠版如何实现全部展示出来？ || 1. 关闭手风琴模式，accordion 要删除掉. 2. realImg0928-van-collapse.png
+2. 监听 scroll 的事件一直没相应？ || 没绑定 listenScroll 事件 =>> :listenScroll="listenScroll" ;this.listenScroll = true;
+3. 伪数组转化为真正的数组 || Array.prototype.slice.call(XXX)
+
 TODO:
+9/21 - 25
 
 1. 点击折叠面板的时候，scroll 的高度发生变化，无法及时刷新，获取最新的高度变化
 2. 不会显示出 pos.y 的值
+3. 验证码换成滚动条

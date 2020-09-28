@@ -5,7 +5,7 @@
     <div
       ref="moveDiv"
       @touchstart="mousedownFn($event)"
-      :class="{ handler_ok_bg: confirmSuccess }"
+      :class="{ 'handler_ok_bg': confirmSuccess }"
       class="handler handler_bg"
       style="position: absolute;top: 0px;left: 0px;"
     ></div>
@@ -138,5 +138,6 @@ export default {
 
        -o-user-select: none;
 }
+
 
 </style>

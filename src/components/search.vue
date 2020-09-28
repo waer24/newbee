@@ -3,8 +3,7 @@
   <div class="search">
     <header class="header">
       <span class="icon-wrap" @click="goBack()"
-        ><i class="iconfont iconback icons"></i
-      ></span>
+        ><i class="iconfont iconback icons"></i></span>
       <form action="/" class="ipt">
         <van-search
           v-model="searchValue"

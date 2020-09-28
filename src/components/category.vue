@@ -21,11 +21,11 @@
 
           <div class="left-summry">
             <scroll :scroll-data="categoryList" class="left-inner">
-              <!--  :class="{ current: currentIndex === index }" -->
               <ul>
                 <li
                   class="summry-item"
                   v-for="(item, index) in categoryList"
+                  :class="{ current: currentIndex === index }"
                   :key="index"
                   ref="leftItem"
                   @click="getCategoryItem(index)"
@@ -38,31 +38,38 @@
 
           <!-- right -->
           <scroll
+            :listenScroll="listenScroll"
             :scroll-data="categoryList"
             @scrollEvent="scrollList"
+            :probeType="probeType"
             class="scroll-rt"
-            ref="categoryItem"
+            ref="scroll"
           >
             <div class="right-summry">
-              <ul class="right-inner">
+              <ul class="right-inner" ref="jsHookList">
                 <li
                   v-for="(item, index) in categoryList"
                   :key="index"
                   ref="categoryTitle"
+                  class="category-item"
                 >
+                  <!--  name="index" 这里同data里定义的activeNames数组里保持一致 -->
                   <van-collapse v-model="activeNames">
                     <van-collapse-item
                       class="title"
                       :title="item.categoryName"
-                      :name="item.categoryName"
+                      name="index"
                       v-for="(item, index) in item.secondLevelCategoryVOS"
+                      :values="item.categoryName"
                       :key="index"
                     >
+                      <!--   :name="item.categoryName" -->
                       <ul>
                         <li
                           class="sub"
                           v-for="(subItem, index) in item.thirdLevelCategoryVOS"
                           :key="index"
+                          :values="subItem.categoryName"
                           @click="itemDetail(subItem.categoryId)"
                         >
                           <div class="sub-inner">
@@ -98,28 +105,72 @@ export default {
   data() {
     return {
       categoryList: [],
-      activeNames: [],
-      scrollY: 0, // 实时获取Y轴鼠标的滚动位置
+      activeNames: ["index"],
+      scrollY: -1, // 实时获取Y轴鼠标的滚动位置,用于在获取右边每个li的实际高度时，与之对比，获取到currentIndex
+      itemsHeight: [], // 获取右边li所有item的高度
     };
   },
   created() {
+    // 不用追踪数据，只是纯粹的定义共享变量
+    this.listenScroll = true;
+    this.probeType = 3;
+    this.scroll = true;
     this.category();
   },
+
   computed: {
-    // currentIndex() {},
+    /* currentIndex() {
+      const { scrollY, itemsHeight } = this;
+      console.log(itemsHeight);
+      return itemsHeight.findIndex((item, index) => {
+        return scrollY >= item && scrollY < itemsHeight[index + 1];
+      });
+    }, */
+    currentIndex() {
+      for (let i = 0; i < this.itemsHeight.length; i++) {
+        let h1 = this.itemsHeight[i];
+        let h2 = this.itemsHeight[i + 1];
+        if (this.scrollY >= h1 && this.scrollY < h2) {
+          return i;
+        }
+        return 0; // 其他情况
+      }
+    },
   },
-  watch: {},
+  watch: {
+    categoryList() {
+      this.$nextTick(() => {
+        this._initHeight(); // 通过watch监听右边列表是否发生变化
+      });
+    },
+  },
   methods: {
+    _initHeight() {
+      // console.log(this.categoryList);
+      let itemArray = []; // 定义一个伪数组
+      let itemTop = 0;
+      itemArray.push(itemTop);
+      let allItems = this.$refs.jsHookList.getElementsByClassName(
+        "category-item"
+      );
+      // 转化为真数组
+      Array.prototype.slice.call(allItems).forEach((item) => {
+        itemTop += item.clientHeight; // 获取每个li的高度
+        itemArray.push(itemTop);
+      });
+      this.itemsHeight = itemArray;
+      console.log(this.itemsHeight);
+    },
     scrollList(pos) {
       // 实时获取滚动到y轴的位置，用户会不断触发scroll事件，因此需要监听scroll，同时也是回应scroll组件中子组件的绑定事件
       this.scrollY = Math.abs(Math.round(pos.y)); // scroll事件本身就包含对x，y的坐标点
-      console.log(this.scrollY);
-      console.log(22);
-      /*
-      function onScroll(pos) {
-    console.log(`Now position is x: ${pos.x}, y: ${pos.y}`)
-} */
     },
+
+    getCategoryItem(index) {
+      this.$refs.scroll.refresh();
+      this.$refs.scroll.scrollToElement(this.$refs.categoryTitle[index], 300);
+    },
+
     itemDetail(id) {
       this.$router.push({
         path: `/category/${id}`,
@@ -133,15 +184,8 @@ export default {
       const { data } = await getCategory();
       this.categoryList = data;
       this.secList = this.categoryList[0].secondLevelCategoryVOS;
-      console.log(this.categoryList);
+      // console.log(this.categoryList);
       // console.log(this.secList);
-    },
-    getCategoryItem(index) {
-      this.$refs.categoryItem.refresh();
-      this.$refs.categoryItem.scrollToElement(
-        this.$refs.categoryTitle[index],
-        300
-      );
     },
   },
   components: { vNav, scroll },
@@ -232,9 +276,6 @@ export default {
         overflow: hidden;
 
         height: 100%;
-
-        // min-height: calc(100vh - 100px);
-
         .left-summry {
           position: relative;
 
@@ -243,6 +284,7 @@ export default {
             flex: 0 0 140px;
 
             width: 140px;
+            height: 100%;
           }
 
           .summry-item {
@@ -250,7 +292,7 @@ export default {
 
             position: relative;
 
-            padding: 20px 10px;
+            padding: 18px 10px;
 
             &.current {
               color: $primary;
