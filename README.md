@@ -48,6 +48,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 TODO:
 9/21 - 25
 
-1. 点击折叠面板的时候，scroll 的高度发生变化，无法及时刷新，获取最新的高度变化
-2. 不会显示出 pos.y 的值
+1. ~~点击折叠面板的时候，scroll 的高度发生变化，无法及时刷新，获取最新的高度变化~~
+2. ~~不会显示出 pos.y 的值~~
 3. 验证码换成滚动条
+4. better-scroll 无法滚动到底部
+5. https://blog.csdn.net/weixin_44402520/article/details/103402869 参考这篇文章，实现在点击登录之后，弹出一个图片拼图，验证通过之后跳回当前活动页面。当前先做常规验证

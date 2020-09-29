@@ -56,7 +56,8 @@ const routes = [{
         path: "/user",
         name: "user",
         component: () =>
-            import ("./../components/user.vue"),
+            // import ("./../components/user.vue"),
+            import ("./../views/login.vue"),
         meta: {
             index: 1, // 添加 meta 属性，约定 1 为第一级
         },

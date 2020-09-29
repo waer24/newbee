@@ -30,7 +30,6 @@
           <!--  <div class="verify-wrap">
             <verify></verify>
           </div> -->
-          <div class="signup">{{}}</div>
           <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit">
               注册
@@ -59,10 +58,12 @@
           <!--
               验证滚动条无法滚动，暂时关闭
            -->
-          <!--  <div class="verify-wrap">
-            <verify></verify>
-          </div> -->
-          <div class="signup">{{}}</div>
+          <div class="verify-wrap">
+            <v-verify
+              @success="verifyAlert('验证通过')"
+              @error="verifyAlert('验证失败')"
+            ></v-verify>
+          </div>
           <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit">
               登录
@@ -76,15 +77,17 @@
 </template>
 
 <script>
-import vHeader from "./../views/v-header";
-import { getUserInfo } from "./../api/user.js";
+// import vHeader from "./../views/v-header";
+// import { getUserInfo } from "./../api/user.js";
+import vVerify from "./../views/v-verify";
+import { Toast } from "vant";
+
 export default {
-  //import引入的组件需要注入到对象中才能使用
-  components: {},
+  components: { vVerify },
   data() {
     return {
-      type: "login",
-      verify: false, // 验证失败
+      /* type: "login",
+      verify: false, // 验证失败 */
     };
   },
   created() {},
@@ -99,7 +102,10 @@ export default {
       this.verify = false;
       this.type = v;
     },
-    async onSubmit(values) {
+    verifyAlert(v) {
+      Toast.success(v);
+    },
+    /* async onSubmit(values) {
       // 每次提交之前需要验证一下验证码是否正确,再看type等于不同值的问题
       if (!this.verify) {
         Toast.fail("验证失败或验证码未填写");
@@ -110,7 +116,7 @@ export default {
           password: this.$md5(values.password),
         };
       }
-    },
+    },*/
   },
 };
 </script>

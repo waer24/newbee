@@ -3,7 +3,8 @@
   <div class="search">
     <header class="header">
       <span class="icon-wrap" @click="goBack()"
-        ><i class="iconfont iconback icons"></i></span>
+        ><i class="iconfont iconback icons"></i
+      ></span>
       <form action="/" class="ipt">
         <van-search
           v-model="searchValue"
@@ -14,6 +15,7 @@
       </form>
     </header>
     <div class="tab">
+      这是搜索页面
       <!--  <ul>
         <li
           class="tab-item"
@@ -57,6 +59,9 @@ export default {
   methods: {
     search() {
       Toast("hello");
+    },
+    goBack() {
+      this.$router.go(-1);
     },
   },
 };

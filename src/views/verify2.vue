@@ -13,6 +13,7 @@
 </template>
 <script>
 export default {
+    /* TODO: verify2是滑动验证，是自己封装的一个功能，还未完善 */
   data() {
     return {
       beginClientX: 0, // 距离屏幕左端距离

@@ -117,33 +117,38 @@ export default {
     this.scroll = true;
     this.category();
   },
-
-  computed: {
-    /* currentIndex() {
-      const { scrollY, itemsHeight } = this;
-      console.log(itemsHeight);
-      return itemsHeight.findIndex((item, index) => {
-        return scrollY >= item && scrollY < itemsHeight[index + 1];
-      });
-    }, */
-    currentIndex() {
-      for (let i = 0; i < this.itemsHeight.length; i++) {
-        let h1 = this.itemsHeight[i];
-        let h2 = this.itemsHeight[i + 1];
-        if (this.scrollY >= h1 && this.scrollY < h2) {
-          return i;
-        }
-        return 0; // 其他情况
-      }
-    },
-  },
   watch: {
     categoryList() {
       this.$nextTick(() => {
         this._initHeight(); // 通过watch监听右边列表是否发生变化
+        this.$refs.scroll.refresh(); // 重新计算scroll滚动的高度
       });
     },
   },
+  computed: {
+    // 方法一
+    currentIndex() {
+      const { scrollY, itemsHeight } = this;
+      // console.log(itemsHeight);
+      return itemsHeight.findIndex((item, index) => {
+        return scrollY >= item && scrollY < itemsHeight[index + 1];
+      });
+    },
+
+    // 方法二
+    /* currentIndex() {
+      for (let i = 0; i < this.itemsHeight.length; i++) {
+        let h1 = this.itemsHeight[i];
+        let h2 = this.itemsHeight[i + 1];
+        if (this.scrollY >= h1 && this.scrollY < h2) {
+          console.log(i);
+          return i;
+        }
+      }
+      return 0; // 其他情况
+    }, */
+  },
+
   methods: {
     _initHeight() {
       // console.log(this.categoryList);
@@ -223,7 +228,7 @@ export default {
 
       width: 30px;
       height: 30px;
-      padding: 8px;
+      padding: 10px;
 
       .icons {
         font-size: 24px;
