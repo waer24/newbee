@@ -1,7 +1,6 @@
 <!--  -->
 <template>
   <div class="login-wrap">
-    login
     <v-header :title="name" class="header"></v-header>
     <div class="content">
       <div class="image">
@@ -24,12 +23,12 @@
             placeholder="密码"
             :rules="[{ required: true, message: '请填写密码' }]"
           />
-          <!--
-              验证滚动条无法滚动，暂时关闭
-           -->
-          <!--  <div class="verify-wrap">
-            <verify></verify>
-          </div> -->
+        <div class="verify-wrap">
+            <v-verify
+              @success="verifyAlert('验证通过')"
+              @error="verifyAlert('验证失败')"
+            ></v-verify>
+          </div>
           <div style="margin: 16px;">
             <van-button round block type="info" native-type="submit">
               注册
@@ -55,9 +54,6 @@
             placeholder="密码"
             :rules="[{ required: true, message: '请填写密码' }]"
           />
-          <!--
-              验证滚动条无法滚动，暂时关闭
-           -->
           <div class="verify-wrap">
             <v-verify
               @success="verifyAlert('验证通过')"
@@ -86,8 +82,8 @@ export default {
   components: { vVerify },
   data() {
     return {
-      /* type: "login",
-      verify: false, // 验证失败 */
+      type: "login",
+      verify: false, // 验证失败
     };
   },
   created() {},
@@ -105,18 +101,19 @@ export default {
     verifyAlert(v) {
       Toast.success(v);
     },
-    /* async onSubmit(values) {
+    async onSubmit() {
       // 每次提交之前需要验证一下验证码是否正确,再看type等于不同值的问题
       if (!this.verify) {
         Toast.fail("验证失败或验证码未填写");
+        return 
       }
-      if (type == "login") {
-        const { data } = {
+      if (this.type == "login") {
+        /*  const { data } = {
           login_name: values.userName,
           password: this.$md5(values.password),
-        };
+        }; */
       }
-    },*/
+    },
   },
 };
 </script>
