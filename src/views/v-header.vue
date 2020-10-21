@@ -34,16 +34,16 @@ export default {
   border-bottom: 2px solid #ccc;
   .icon {
     position: absolute;
-    top: 2px;
+    top: 6px;
     left: 10px;
+    padding: 5px;
   }
   .title {
     font-size: 18px;
-
+    padding: 6px 0;
     display: inline-block;
 
     letter-spacing: 5px;
   }
 }
-
 </style>

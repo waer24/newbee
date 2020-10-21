@@ -164,7 +164,7 @@ export default {
         itemArray.push(itemTop);
       });
       this.itemsHeight = itemArray;
-      console.log(this.itemsHeight);
+      // console.log(this.itemsHeight);
     },
     scrollList(pos) {
       // 实时获取滚动到y轴的位置，用户会不断触发scroll事件，因此需要监听scroll，同时也是回应scroll组件中子组件的绑定事件
@@ -197,7 +197,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import './../common/style/mixin.scss';
+@import "./../common/style/mixin.scss";
 
 .category-wrap {
   width: 100%;
@@ -218,7 +218,7 @@ export default {
 
       height: 50px;
 
-@include border-1px(#ccc);
+      @include border-1px(#ccc);
     }
 
     .icon-wrap {
@@ -346,7 +346,7 @@ export default {
   .footer {
     position: fixed;
 
-/*         position: absolute;
+    /*         position: absolute;
         bottom: 0;
         overflow: hidden;
         width: 100%;
@@ -358,5 +358,4 @@ export default {
     background-color: #fff;
   }
 }
-
 </style>

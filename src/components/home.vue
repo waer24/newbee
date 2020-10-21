@@ -134,7 +134,7 @@ export default {
       });
      */
     async home() {
-      const { data } = await getHome();
+      const {data} = await getHome();
       (this.carouselList = data.carousels), // console.log('data', { data });
         (this.newGoodList = data.newGoodses);
       this.hotGoodList = data.hotGoodses;

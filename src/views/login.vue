@@ -23,7 +23,7 @@
             placeholder="密码"
             :rules="[{ required: true, message: '请填写密码' }]"
           />
-        <div class="verify-wrap">
+          <div class="verify-wrap">
             <v-verify
               @success="verifyAlert('验证通过')"
               @error="verifyAlert('验证失败')"
@@ -77,13 +77,17 @@
 // import { getUserInfo } from "./../api/user.js";
 import vVerify from "./../views/v-verify";
 import { Toast } from "vant";
+import vHeader from "./../views/v-header";
 
 export default {
-  components: { vVerify },
+  components: { vVerify, vHeader },
   data() {
     return {
+      name: "登录",
       type: "login",
       verify: false, // 验证失败
+      username: "",
+      password: "",
     };
   },
   created() {},
@@ -105,9 +109,10 @@ export default {
       // 每次提交之前需要验证一下验证码是否正确,再看type等于不同值的问题
       if (!this.verify) {
         Toast.fail("验证失败或验证码未填写");
-        return 
+        return;
       }
       if (this.type == "login") {
+        //验证登录信息
         /*  const { data } = {
           login_name: values.userName,
           password: this.$md5(values.password),
@@ -121,6 +126,7 @@ export default {
 <style lang="scss" scoped>
 .login-wrap {
   overflow: hidden;
+
   .content {
     padding: 10px;
 
@@ -134,8 +140,10 @@ export default {
     }
     .login-body {
       padding: 5px;
+      .van-field__control {
+        line-height: 28px;
+      }
     }
   }
 }
-
 </style>
