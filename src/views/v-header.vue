@@ -31,7 +31,7 @@ export default {
 
   text-align: center;
 
-  border-bottom: 2px solid #ccc;
+  border-bottom: 1px solid #ccc;
   .icon {
     position: absolute;
     top: 6px;
