@@ -5,10 +5,15 @@ axios.defaults.baseURL =
     process.env.NODE_ENV == "development" ?
     "//47.99.134.126:28019/api/v1" :
     "//47.99.134.126:28019/api/v1";
+
 axios.defaults.withCredentials = true; //需要携带证书
+
 axios.defaults.headers["X-Requested-With"] = "XMLHttpRequest";
+
 axios.defaults.headers["token"] = localStorage.getItem("token") || ""; // 通过token判断用户登录
+
 axios.defaults.headers.post["Content-Type"] = "application/json"; //发送json形式的数据包
+
 axios.interceptors.response.use((res) => {
     // interceptors 拦截器，每个请求都会经过这个拦截器，返回的数据可以通过拦截处理后返回
     if (typeof res.data !== "object") {
