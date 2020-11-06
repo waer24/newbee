@@ -31,6 +31,7 @@ axios.interceptors.response.use((res) => {
         }
         return Promise.reject(res.data);
     }
+    console.log("axios---", res);
     return res.data;
 });
 
