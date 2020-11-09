@@ -26,12 +26,12 @@ axios.interceptors.response.use((res) => {
         }
         if (res.data.resultCode == 416) {
             /* 返回 416 代表没有登录状态，路由跳转到/login 页面，这里的 window.vueRouter 是在
-     main.js 里面设置好的 window.vueRouter = router */
+     index.js 里面设置好的 window.vueRouter = router */
             window.vueRouter.push({ path: "/login" });
         }
         return Promise.reject(res.data);
     }
-    console.log("axios---", res);
+    // console.log("axios---", res);
     return res.data;
 });
 
