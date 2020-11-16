@@ -22,7 +22,7 @@
                 class="sub-item"
                 v-for="item in newGoodList"
                 :key="item.goodsId"
-                @click="getDetail(item.goodsId)"
+                @click="gotoDetail(item)"
               >
                 <img
                   :src="getImgUrl(item.goodsCoverImg)"
@@ -42,7 +42,7 @@
                 class="sub-item"
                 v-for="item in hotGoodList"
                 :key="item.goodsId"
-                @click="getDetail(item.goodsId)"
+                @click="gotoDetail(item)"
               >
                 <img
                   :src="getImgUrl(item.goodsCoverImg)"
@@ -62,7 +62,7 @@
                 class="sub-item"
                 v-for="item in recommandList"
                 :key="item.goodsId"
-                @click="getDetail(item.goodsId)"
+                @click="gotoDetail(item)"
               >
                 <img
                   :src="getImgUrl(item.goodsCoverImg)"
@@ -88,11 +88,12 @@ import vNav from "./../views/v-nav";
 import homeSearch from "./../views/home-search";
 import vSwiper from "./../views/v-swiper";
 import { getHome } from "./../api/home.js";
-//import { goodsDetail } from './../api/goods';
+import { getLocal } from "./../common/js/utils";
 
 export default {
   data() {
     return {
+      isLogin: false,
       scrollFlag: false,
       carouselList: [],
       newGoodList: [],
@@ -112,18 +113,28 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.home();
+  async mounted() {
+    console.log(getLocal("token"));
+    getLocal("token") ? (this.isLogin = true) : (this.isLogin = false);
+    if (!this.isLogin) {
+      this.$router.push("/login");
+    }
+    console.log(getLocal("token"));
     window.addEventListener("scroll", this.handleScroll);
+    const { data } = await getHome();
+    (this.carouselList = data.carousels), // console.log('data', { data });
+      (this.newGoodList = data.newGoodses);
+    this.hotGoodList = data.hotGoodses;
+    this.recommandList = data.recommendGoodses;
   },
   computed: {},
   methods: {
-    getDetail(id) {
+    gotoDetail(item) {
       this.$router.push({
-        path: `/home/${id}`,
+        path: `/product/${item.goodsId}`,
       });
+     // console.log(item);
     },
-
     /*
     elmApp api use demo
      getCityList(hotCityData).then((res) => {
@@ -133,13 +144,7 @@ export default {
         }
       });
      */
-    async home() {
-      const {data} = await getHome();
-      (this.carouselList = data.carousels), // console.log('data', { data });
-        (this.newGoodList = data.newGoodses);
-      this.hotGoodList = data.hotGoodses;
-      this.recommandList = data.recommendGoodses;
-    },
+    async home() {},
 
     getImgUrl(url) {
       return url.indexOf("oss-cn-beijing") > -1

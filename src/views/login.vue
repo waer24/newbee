@@ -135,14 +135,18 @@ export default {
           console.log(e);
         });
         setLocal("token", data);
-        window.location.href = "/"; // 返回当前位置
-        console.log("over----");
+        if (this.$route.path === "/login") {
+          window.location.href = "/home";
+        } else {
+          window.location.href = "/"; // 返回当前位置
+        }
       } else {
         const { data } = await register({
           name: values.username,
           password: values.password,
         });
         Toast.success("注册成功");
+        // todo 这里的data是无意义的，如何去掉
         console.log(data);
         // 跳转到登录页面
         this.type = "login";

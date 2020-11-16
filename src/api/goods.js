@@ -1,5 +1,5 @@
-import axios from './../utils/axios';
+import axios from "./../utils/axios";
 
-export function goodsDetail() {
-    return axios.get('goods/detail')
+export function goodsDetail(id) {
+    return axios.get(`goods/detail/${id}`);
 }

@@ -4,7 +4,7 @@
     @success="success()"
     @error="error()"
     :type="1"
-    :codeLength="4"
+    :codeLength="1"
     id="verify"
   ></verify>
 </template>
