@@ -12,8 +12,8 @@ export default {
         }
     },
     /*     [types.SET_CART_lIST](state, list) {
-                                          state.cartList = list;
-                                      }, */
+                                                                                state.cartList = list;
+                                                                            }, */
     [types.SET_STORE_LIST](state, list) {
         state.storeList = list;
     },
@@ -35,6 +35,9 @@ export default {
             console.log(store);
             console.log(state.storeList);
         }
-        return (state.cartCount = state.storeList[shopId].num);
+
+        state.cartCount += state.storeList[shopId].num;
+        console.log(state.cartCount);
+        return state.cartCount;
     },
 };
