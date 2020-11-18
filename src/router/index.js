@@ -42,6 +42,7 @@ const routes = [{
             },
         }, ],
     },
+
     {
         path: "/shopcar",
         name: "shopcar",
@@ -65,11 +66,17 @@ const routes = [{
         path: "/product/:id",
         name: "product",
         component: () =>
-            // import ("./../components/user.vue"),
             import ("./../components/product.vue"),
         meta: {
             index: 2, // 添加 meta 属性，约定 1 为第一级
         },
+    },
+    {
+        path: "/cart",
+        name: "cart",
+        component: () =>
+            import ("./../components/cart.vue"),
+        meta: { index: 3 },
     },
 ];
 

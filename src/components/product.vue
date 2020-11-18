@@ -33,7 +33,7 @@
           <i class="iconfont iconcustomer"></i>
           <p class="txt">客服</p>
         </div>
-        <div class="cart-btn">
+        <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
           <i class="num">{{ cartCount }}</i>
           <p class="txt">购物车</p>
@@ -74,20 +74,23 @@ export default {
     };
   },
   created() {
-    //  console.log(this.$route);
     this.getGoodsDetail();
   },
   computed: {
     ...mapGetters(["cartList", "shopId", "cartCount"]),
   },
   methods: {
-    ...mapMutations(["GET_CART_ADD", "SET_CART_COUNT"]),
+    ...mapMutations(["GET_CART_ADD"]),
     async getGoodsDetail() {
       const { id } = this.$route.params;
       const { data } = await goodsDetail(id);
       this.goods = data;
-      /*  console.log(this.$route.params);
-      console.log(this.goods); */
+    },
+
+    gotoCart() {
+      this.$router.push({
+        path: "/cart",
+      });
     },
     addCart() {
       // console.log(this.goods.goodsId);
@@ -96,8 +99,8 @@ export default {
         name: this.goods.goodsName,
         price: this.goods.sellingPrice,
       });
-      this.SET_CART_COUNT();
     },
+
     buyImmediately() {},
   },
   components: {
@@ -107,12 +110,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./../common/style/mixin.scss";
+@import './../common/style/mixin.scss';
 
 .detail-wrap {
+  z-index: 9222;
+
   width: 100%;
   height: 100%;
-  z-index: 9222;
+
   background-color: $fc;
 
   .content {
@@ -120,6 +125,7 @@ export default {
     .detail-img {
       /* 预留图片占位 */
       position: relative;
+
       width: 100%;
       height: 0;
       padding-top: 100%;
@@ -133,22 +139,29 @@ export default {
       padding: 5px;
       .title {
         font-size: 20px;
-        color: #666;
-        text-align: center;
+
         margin: 2px;
+
+        text-align: center;
+
+        color: #666;
       }
       .desc {
         font-size: 12px;
-        color: #999;
-        padding: 5px 0;
+
         margin: 0;
+        padding: 5px 0;
+
+        color: #999;
       }
       .num {
-        color: #f63515;
         font-size: 16px;
+        font-weight: 700;
+
         margin: 0;
         padding: 0;
-        font-weight: 700;
+
+        color: #f63515;
       }
     }
     .product-intro {
@@ -158,11 +171,13 @@ export default {
         justify-content: space-between;
         .item {
           padding-right: 28px;
+
           border-right: 1px solid #999;
         }
         .item:last-child {
-          border-right: none;
           padding-right: none;
+
+          border-right: none;
         }
       }
     }
@@ -174,59 +189,70 @@ export default {
     }
   }
   .buttom-cart {
-    width: 100%;
     position: fixed;
     right: 0;
     bottom: 0;
+
     display: flex;
+
+    width: 100%;
     height: 60px;
+
     background-color: #fff;
     .left-btn {
-      width: 120px;
       display: flex;
-      justify-content: space-around;
       align-items: center;
+      justify-content: space-around;
+
+      width: 120px;
       .cart-btn {
         position: relative;
       }
       .txt {
         font-size: 10px;
+
         margin: 0;
         padding: 5 0;
+
         text-align: center;
       }
       .num {
-        color: #fff;
-        background-color: #f63515;
-        border-radius: 100%;
-        width: 18px;
-        height: 18px;
-        position: absolute;
-        top: -9px;
-        right: -2px;
-        text-align: center;
+        font-size: 12px;
         font-style: normal;
         line-height: 18px;
-        font-size: 12px;
+
+        position: absolute;
+        top: -4px;
+        right: 0;
+
+        width: 18px;
+        height: 18px;
+
+        text-align: center;
+
+        color: #fff;
+        border-radius: 100%;
+        background-color: #f63515;
+      }
+    }
+    .right-btn {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      justify-content: center;
+      .btn {
+        padding: 10px 30px;
+      }
+      .lf-radius {
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+      }
+      .rt-radius {
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
       }
     }
   }
-  .right-btn {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .btn {
-      padding: 10px 30px;
-    }
-    .lf-radius {
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-    }
-    .rt-radius {
-      border-top-left-radius: 50%;
-      border-bottom-left-radius: 50%;
-    }
-  }
 }
+
 </style>
