@@ -11,7 +11,9 @@
         <span>分类</span>
       </router-link>
       <router-link tag="li" to="/shopcar" class="item">
-        <span class="icon"><i class="iconfont iconshopcar icon"></i></span>
+        <span class="icon"
+          ><i class="iconfont iconshopcar icon"></i> <i class="num">11</i></span
+        ><!--  cartCount -->
 
         <span>购物车</span>
       </router-link>
@@ -30,29 +32,55 @@ export default {};
 <style lang="scss" scoped>
 @import './../common/style/mixin.scss';
 .nav-bar {
+  position: fixed;
+
   width: 100%;
   height: 60px;
-  position: fixed;
+
   background-color: $fc;
   .nav-inner {
-    height: 100%;
+    font-size: 14px;
+
     display: flex;
     align-items: center;
     justify-content: space-around;
-    font-size: 14px;
+
+    height: 100%;
     .icon {
-      display: block;
       font-size: 18px;
+
+      display: block;
+
       text-align: center;
       &.router-link-active {
         color: $primary;
       }
     }
     .item {
+      position: relative;
       &.router-link-active {
         color: $primary;
+      }
+      .num {
+        font-size: 12px;
+        font-style: normal;
+        line-height: 18px;
+
+        position: absolute;
+        top: -4px;
+        right: 0;
+
+        width: 18px;
+        height: 18px;
+
+        text-align: center;
+
+        color: #fff;
+        border-radius: 100%;
+        background-color: #f63515;
       }
     }
   }
 }
+
 </style>

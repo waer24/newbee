@@ -7,6 +7,8 @@ import { Tab, Tabs } from "vant";
 import { Form } from "vant";
 import { Field } from "vant";
 import { Toast } from "vant";
+import { RadioGroup, Radio } from "vant";
+import { Checkbox, CheckboxGroup } from "vant";
 
 Vue.use(button);
 Vue.use(Swipe);
@@ -19,3 +21,7 @@ Vue.use(Tabs);
 Vue.use(Form);
 Vue.use(Field);
 Vue.use(Toast);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
