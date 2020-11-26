@@ -18,12 +18,7 @@
                 <span class="num"><i>￥</i>4243</span>
                 <div class="btn-operator">
                   <van-button type="default">-</van-button>
-                  <input
-                    type="number"
-                    aria-valuenow="“4”"
-                    aria-valuemin="“"
-                    1”
-                  />
+                  <input type="number" aria-valuenow="4" aria-valuemin="1" />
                   <van-button type="default">+</van-button>
                 </div>
               </div>
@@ -90,12 +85,24 @@ export default {
     overflow: hidden;
   }
   .footer {
-    position: fixed;
-    bottom: 0;
+    position: relative;
 
     width: 100%;
-    height: 50px;
+    // height: 120px;
+    overflow: hidden;
+    .total {
+      position: fixed;
+      width: 100%;
+      display: flex;
+      bottom: 40px;
+    }
+    .nav-wrap {
+      position: fixed;
+      width: 100%;
+      height: 36px;
+      bottom: 0rem;
+      padding: 10px 0;
+    }
   }
 }
-
 </style>
