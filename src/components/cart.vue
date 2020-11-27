@@ -8,10 +8,9 @@
             <div class="checkbox">
               <van-checkbox-group v-model="result">
                 <van-checkbox name="a" checked-color="#1baeae">aa</van-checkbox>
-                <van-checkbox name="b" checked-color="#1baeae">bb</van-checkbox>
               </van-checkbox-group>
             </div>
-            <div class="img"><img src="" alt="" /></div>
+            <div class="img"><img src="" alt="" width="60" height="80" /></div>
             <div class="desc">
               <p class="title"></p>
               <div class="info">
@@ -30,15 +29,17 @@
     <footer class="footer">
       <div class="total">
         <div class="lf">
-          <van-checkbox name="a"></van-checkbox> <span>全选</span>
+          <van-checkbox name="a"></van-checkbox>
+          <span class="allselect">全选</span>
         </div>
         <div class="ct">
-          <span class="total">合计</span><i>￥</i>
-          <p>54234.00</p>
+          <span class="sum">合计:</span><i class="charc">￥</i>
+          <p class="num">54234.00</p>
         </div>
-        <div class="rt">
-          <van-button type="primary">结算</van-button>
-        </div>
+
+        <van-button type="primary" color="#1baeae" round class="rt"
+          >结算</van-button
+        >
       </div>
       <div class="nav-wrap">
         <v-nav></v-nav>
@@ -83,26 +84,70 @@ export default {
   height: 100%;
   .list {
     overflow: hidden;
+    .item {
+      padding: 10px;
+      .item-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+    }
   }
   .footer {
     position: relative;
 
-    width: 100%;
-    // height: 120px;
+// height: 120px;
+
     overflow: hidden;
+
+    width: 100%;
+
     .total {
       position: fixed;
-      width: 100%;
-      display: flex;
       bottom: 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      width: 100%;
+      .lf {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .allselect {
+          padding: 0 10px;
+        }
+      }
+      .ct {
+        display: flex;
+        align-items: center;
+        .charc {
+          font-style: normal;
+
+          padding-left: 10px;
+
+          color: red;
+        }
+        .num {
+          font-size: 18px;
+
+          color: #ff6b01;
+        }
+      }
+      .rt {
+        width: 100px;
+      }
     }
     .nav-wrap {
       position: fixed;
+      bottom: 0rem;
+
       width: 100%;
       height: 36px;
-      bottom: 0rem;
       padding: 10px 0;
     }
   }
 }
+
 </style>
