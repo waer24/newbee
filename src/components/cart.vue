@@ -7,18 +7,31 @@
           <div class="item-inner">
             <div class="checkbox">
               <van-checkbox-group v-model="result">
-                <van-checkbox name="a" checked-color="#1baeae">aa</van-checkbox>
+                <van-checkbox name="a" checked-color="#1baeae"></van-checkbox>
               </van-checkbox-group>
             </div>
             <div class="img"><img src="" alt="" width="60" height="80" /></div>
             <div class="desc">
-              <p class="title"></p>
+              <p class="title">
+                HUAWEI Mate 40 Pro+ 5G 全网通
+                全网通全网通全网通全网通全网通全网通全网通全网通
+              </p>
+              <p class="quantity">X4</p>
               <div class="info">
-                <span class="num"><i>￥</i>4243</span>
+                <span class="num"><i class="charc">￥</i>4243</span>
                 <div class="btn-operator">
-                  <van-button type="default">-</van-button>
-                  <input type="number" aria-valuenow="4" aria-valuemin="1" />
-                  <van-button type="default">+</van-button>
+                  <span class="reduce"
+                    ><i class="iconfont iconreduce"></i
+                  ></span>
+                  <input
+                    type="number"
+                    aria-valuenow="4"
+                    aria-valuemin="1"
+                    class="ipt"
+                  />
+                  <span class="add"
+                    ><i class="iconfont iconweibiaoti1"></i
+                  ></span>
                 </div>
               </div>
             </div>
@@ -85,11 +98,76 @@ export default {
   .list {
     overflow: hidden;
     .item {
-      padding: 10px;
+      // padding: 10px;
       .item-inner {
         display: flex;
         align-items: center;
         justify-content: space-around;
+        .checkbox {
+          // padding-right: 10px;
+        }
+        .img {
+          display: contents;
+          flex: 1;
+
+          box-sizing: border-box;
+          width: 60px;
+        }
+        .desc {
+          position: relative;
+          .title {
+            margin: 0;
+            padding: 0 30px 0 10px;
+          }
+          .quantity {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+
+            margin: 0;
+            padding: 0;
+          }
+          .info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .num {
+              font-size: 16px;
+
+              color: #ff6b01;
+              .charc {
+                font-style: normal;
+
+                padding-right: 5px;
+                padding-left: 10px;
+              }
+            }
+            .btn-operator {
+              overflow: hidden;
+
+              margin-right: 13px;
+              .reduce,
+              .add {
+                font-size: 20px;
+                line-height: 20px;
+
+                width: 40px;
+                padding: 0 5px;
+
+                border: none;
+              }
+              /* .add {
+                font-size: 14px;
+                width: 60px;
+              } */
+              .ipt {
+                width: 30px;
+
+                text-align: center;
+              }
+            }
+          }
+        }
       }
     }
   }
