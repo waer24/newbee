@@ -14,7 +14,7 @@
             <div class="desc">
               <p class="title">
                 HUAWEI Mate 40 Pro+ 5G 全网通
-                全网通全网通全网通全网通全网通全网通全网通全网通
+                全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
               </p>
               <p class="quantity">X4</p>
               <div class="info">
@@ -98,7 +98,7 @@ export default {
   .list {
     overflow: hidden;
     .item {
-      // padding: 10px;
+      padding: 10px 0;
       .item-inner {
         display: flex;
         align-items: center;
@@ -116,8 +116,17 @@ export default {
         .desc {
           position: relative;
           .title {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+
+            width: 160px;
             margin: 0;
-            padding: 0 30px 0 10px;
+            padding: 0 30px 0 0;
+
+            text-overflow: ellipsis;
+
+            -webkit-line-clamp: 2;
           }
           .quantity {
             position: absolute;
@@ -152,14 +161,10 @@ export default {
                 line-height: 20px;
 
                 width: 40px;
-                padding: 0 5px;
+                padding: 5px;
 
                 border: none;
               }
-              /* .add {
-                font-size: 14px;
-                width: 60px;
-              } */
               .ipt {
                 width: 30px;
 
@@ -182,7 +187,7 @@ export default {
 
     .total {
       position: fixed;
-      bottom: 40px;
+      bottom: 60px;
 
       display: flex;
       align-items: center;
@@ -222,8 +227,7 @@ export default {
       bottom: 0rem;
 
       width: 100%;
-      height: 36px;
-      padding: 10px 0;
+      height: 60px;
     }
   }
 }

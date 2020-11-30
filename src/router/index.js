@@ -47,7 +47,7 @@ const routes = [{
         path: "/shopcar",
         name: "shopcar",
         component: () =>
-            import ("./../components/shopcar.vue"),
+            import ("./../components/cart.vue"),
         meta: {
             index: 1, // 添加 meta 属性，约定 1 为第一级
         },
