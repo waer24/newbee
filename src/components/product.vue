@@ -35,7 +35,7 @@
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
-          <i class="num">{{ cartCount }}</i>
+          <i class="num" v-show="sortCount || sortCount > 0">{{ sortCount }}</i>
           <p class="txt">购物车</p>
         </div>
       </div>
@@ -65,19 +65,21 @@
 import vHeader from "./../views/v-header";
 import { goodsDetail } from "./../api/goods";
 import { mapGetters, mapMutations } from "vuex";
+import { Toast } from "vant";
 
 export default {
   data() {
     return {
       name: "商品详情",
       goods: {},
+      sortCount: 0,
     };
   },
   created() {
     this.getGoodsDetail();
   },
   computed: {
-    ...mapGetters(["cartList", "shopId", "cartCount"]),
+    ...mapGetters(["cartList", "shopId", "cartCount", "storeList"]),
   },
   methods: {
     ...mapMutations(["GET_CART_ADD"]),
@@ -86,6 +88,10 @@ export default {
       const { data } = await goodsDetail(id);
       this.goods = data;
     },
+    getSortCount() {
+      this.sortCount = Object.keys(this.storeList).length;
+      return this.sortCount > 0 ? this.sortCount : "";
+    },
 
     gotoCart() {
       this.$router.push({
@@ -93,15 +99,32 @@ export default {
       });
     },
     addCart() {
-      // console.log(this.goods.goodsId);
+      for (let key in this.storeList) {
+        console.log();
+        if (Number(key) === this.goods.goodsId) {
+          Toast.fail("已经存在啦");
+          return;
+        }
+      }
       this.GET_CART_ADD({
-        shopId: this.goods.goodsId,
         name: this.goods.goodsName,
+        shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
       });
+      this.getSortCount();
     },
 
     buyImmediately() {},
+  },
+  watch: {
+    sortCount: {
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.addCart();
+        }
+      },
+      immediate: true,
+    },
   },
   components: {
     vHeader,
@@ -110,10 +133,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './../common/style/mixin.scss';
+@import "./../common/style/mixin.scss";
 
 .detail-wrap {
-  z-index: 9222;
+  z-index: 1;
 
   width: 100%;
   height: 100%;
@@ -254,5 +277,4 @@ export default {
     }
   }
 }
-
 </style>

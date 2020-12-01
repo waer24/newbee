@@ -20,7 +20,7 @@
               <div class="info">
                 <span class="num"><i class="charc">￥</i>4243</span>
                 <div class="btn-operator">
-                  <span class="reduce"
+                  <span class="reduce" @click="radio"
                     ><i class="iconfont iconreduce"></i
                   ></span>
                   <input
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import vHeader from "./../views/v-header";
 import vNav from "./../views/v-nav";
 
@@ -76,10 +77,12 @@ export default {
 
   mounted() {},
 
-  computed: {},
+  computed: {
+    ...mapGetters(["storeList"]),
+  },
   methods: {
     radio() {
-      console.log(22);
+      console.log(this.storeList);
     },
   },
   watch: {},
