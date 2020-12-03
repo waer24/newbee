@@ -6,22 +6,30 @@
       <span class="title">新峰商城</span>
       <span class="sub-title">山河无恙，人间皆安</span>
     </div>
-    <span class="login">登录</span>
+    <span class="login" @click="jumpLogin">登录</span>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    jumpLogin() {
+      this.$router.push({
+        path: "/login",
+      });
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-@import './../common/style/mixin.scss';
+@import "./../common/style/mixin.scss";
 
 .header-wrap {
   color: $primary;
   height: 40px;
   top: 0;
   display: flex;
-  
+
   justify-content: space-around;
   align-items: center;
   .login {

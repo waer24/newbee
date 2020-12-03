@@ -64,7 +64,7 @@
 <script>
 import vHeader from "./../views/v-header";
 import { goodsDetail } from "./../api/goods";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 import { Toast } from "vant";
 
 export default {
@@ -73,6 +73,7 @@ export default {
       name: "商品详情",
       goods: {},
       sortCount: 0,
+      cartGoods: {}, // 产品页面的购物车
     };
   },
   created() {
@@ -80,17 +81,16 @@ export default {
   },
   computed: {
     ...mapGetters(["cartList", "shopId", "cartCount", "storeList"]),
+    showSortCount() {
+      return this.sortCount > 0 ? this.sortCount : "";
+    },
   },
   methods: {
-    ...mapMutations(["GET_CART_ADD"]),
+    // ...mapMutations(["GET_CART_ADD"]),
     async getGoodsDetail() {
       const { id } = this.$route.params;
       const { data } = await goodsDetail(id);
       this.goods = data;
-    },
-    getSortCount() {
-      this.sortCount = Object.keys(this.storeList).length;
-      return this.sortCount > 0 ? this.sortCount : "";
     },
 
     gotoCart() {
@@ -99,24 +99,36 @@ export default {
       });
     },
     addCart() {
-      for (let key in this.storeList) {
-        console.log();
-        if (Number(key) === this.goods.goodsId) {
-          Toast.fail("已经存在啦");
-          return;
-        }
+      console.log("goods=====", this.goods);
+      if (this.cartGoods.length !== 0) {
+        this.cartGoods.forEach((item) => {
+          // console.log(item);
+          if (item.shopId === this.goods.goodsId) {
+            Toast.fail("already exist");
+          }
+        });
+      } else {
+        let store = {};
+        store[this.goods.goodsId] = {
+          count: 1,
+          name: this.goods.goodsName,
+          shopId: this.goods.goodsId,
+          price: this.goods.sellingPrice,
+        };
+        this.cartGoods.push(store);
+        // this.sortCount += this.cartGoods[shopId].count;
       }
-      this.GET_CART_ADD({
+      console.log("store=====", this.cartGoods);
+      /* this.GET_CART_ADD({
         name: this.goods.goodsName,
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
-      });
-      this.getSortCount();
+      }); */
     },
 
     buyImmediately() {},
   },
-  watch: {
+  /*  watch: {
     sortCount: {
       handler(newVal, oldVal) {
         if (newVal !== oldVal) {
@@ -125,7 +137,7 @@ export default {
       },
       immediate: true,
     },
-  },
+  }, */
   components: {
     vHeader,
   },
