@@ -35,7 +35,7 @@
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
-          <i class="num" v-show="sortCount || sortCount > 0">{{ sortCount }}</i>
+          <i class="num" v-show="cartCount || cartCount > 0">{{ cartCount }}</i>
           <p class="txt">购物车</p>
         </div>
       </div>
@@ -64,7 +64,7 @@
 <script>
 import vHeader from "./../views/v-header";
 import { goodsDetail } from "./../api/goods";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { Toast } from "vant";
 
 export default {
@@ -72,26 +72,43 @@ export default {
     return {
       name: "商品详情",
       goods: {},
-      sortCount: 0,
+      sortCount: null,
       cartGoods: {}, // 产品页面的购物车
+      val: null,
     };
   },
   created() {
     this.getGoodsDetail();
+    console.log(this.cartCount);
   },
   computed: {
-    ...mapGetters(["cartList", "shopId", "cartCount", "storeList"]),
-    showSortCount() {
-      return this.sortCount > 0 ? this.sortCount : "";
-    },
+    ...mapGetters([
+      "cartList",
+      "shopId",
+      "cartCount",
+      "storeList",
+      "sortCartCount",
+    ]),
+
+    /*  calcCount() {
+      for (let key in this.storeList) {
+        console.log(key);
+      }
+
+      return "ll";
+    }, */
   },
   methods: {
-    // ...mapMutations(["GET_CART_ADD"]),
+    ...mapMutations(["SET_INIT_LIST"]),
     async getGoodsDetail() {
       const { id } = this.$route.params;
       const { data } = await goodsDetail(id);
       this.goods = data;
     },
+
+    /*   showSortCount() {
+      return this.sortCount > 0 ? this.sortCount : "";
+    }, */
 
     gotoCart() {
       this.$router.push({
@@ -99,45 +116,41 @@ export default {
       });
     },
     addCart() {
-      console.log("goods=====", this.goods);
-      if (this.cartGoods.length !== 0) {
-        this.cartGoods.forEach((item) => {
-          // console.log(item);
-          if (item.shopId === this.goods.goodsId) {
-            Toast.fail("already exist");
+      // this.calcCount();
+      //  Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值
+      if (this.storeList && Object.values(this.storeList).length !== 0) {
+        for (let key in this.storeList) {
+          if (Number(key) === this.goods.goodsId) {
+            Toast.fail("已经添加过啦~");
           }
-        });
-      } else {
-        let store = {};
-        store[this.goods.goodsId] = {
-          count: 1,
-          name: this.goods.goodsName,
-          shopId: this.goods.goodsId,
-          price: this.goods.sellingPrice,
-        };
-        this.cartGoods.push(store);
-        // this.sortCount += this.cartGoods[shopId].count;
+        }
       }
-      console.log("store=====", this.cartGoods);
-      /* this.GET_CART_ADD({
+
+      this.SET_INIT_LIST({
         name: this.goods.goodsName,
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
-      }); */
+      });
+      console.log(this.storeList);
+      this.sortCount = Object.values(this.storeList).length;
     },
-
     buyImmediately() {},
   },
-  /*  watch: {
+  watch: {
     sortCount: {
-      handler(newVal, oldVal) {
-        if (newVal !== oldVal) {
+      handler: function(newVal, oldVal) {
+        // 写箭头函数会报undefined
+        if (
+          Object.prototype.hasOwnProperty.call(this.storeList, "shopId") &&
+          Object.values(this.storeList).length !== undefined &&
+          newVal !== oldVal
+        ) {
           this.addCart();
         }
       },
       immediate: true,
     },
-  }, */
+  },
   components: {
     vHeader,
   },

@@ -5,7 +5,9 @@ export const shopId = (state) => {
 export const cartCount = (state) => {
     return state.cartCount;
 };
-
+export const sortCartCount = (state) => {
+    return Object.values(state.storeList).length
+};
 export const storeList = (state) => {
     return state.storeList;
 };
