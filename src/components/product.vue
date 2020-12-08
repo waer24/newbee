@@ -35,7 +35,8 @@
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
-          <i class="num" v-show="cartCount || cartCount > 0">{{ cartCount }}</i>
+          <i class="num">{{ calcCount }}</i
+          ><!-- v-show="sortCount || sortCount > 0" -->
           <p class="txt">购物车</p>
         </div>
       </div>
@@ -72,14 +73,13 @@ export default {
     return {
       name: "商品详情",
       goods: {},
-      sortCount: null,
+      sortCount: 0,
       cartGoods: {}, // 产品页面的购物车
       val: null,
     };
   },
   created() {
     this.getGoodsDetail();
-    console.log(this.cartCount);
   },
   computed: {
     ...mapGetters([
@@ -90,13 +90,9 @@ export default {
       "sortCartCount",
     ]),
 
-    /*  calcCount() {
-      for (let key in this.storeList) {
-        console.log(key);
-      }
-
-      return "ll";
-    }, */
+    calcCount() {
+      return Object.values(this.storeList).length;
+    },
   },
   methods: {
     ...mapMutations(["SET_INIT_LIST"]),
@@ -105,10 +101,6 @@ export default {
       const { data } = await goodsDetail(id);
       this.goods = data;
     },
-
-    /*   showSortCount() {
-      return this.sortCount > 0 ? this.sortCount : "";
-    }, */
 
     gotoCart() {
       this.$router.push({
@@ -131,23 +123,26 @@ export default {
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
       });
-      console.log(this.storeList);
-      this.sortCount = Object.values(this.storeList).length;
+
+      // return Object.values(this.storeList).length;
     },
     buyImmediately() {},
   },
   watch: {
-    sortCount: {
-      handler: function(newVal, oldVal) {
-        // 写箭头函数会报undefined
+    calcCount: {
+      handler: function(newVal) {
         if (
-          Object.prototype.hasOwnProperty.call(this.storeList, "shopId") &&
-          Object.values(this.storeList).length !== undefined &&
-          newVal !== oldVal
+          newVal &&
+          Object.prototype.hasOwnProperty.call(
+            this.storeList,
+            `${this.goods.goodsId}`
+          )
         ) {
-          this.addCart();
+          return Object.values(this.storeList).length;
+          // this.addCart();
         }
       },
+      deep: true,
       immediate: true,
     },
   },

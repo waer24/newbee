@@ -24,8 +24,9 @@ const mutations = {
         // state.cartCount = state.storeList[shopId].count;
         store = state.storeList[shopId]; // deep: store = JSON.parse(JSON.stringify(state.storeList[shopId])) */
         // console.log(state.storeList);
-        Vue.set(state.cartCount, Object.values(state.storeList).length);
-        console.log("state.cartCount", state.cartCount);
+        //Vue.set(state.cartCount, Object.values(state.storeList).length);
+        // console.log("state.cartCount", state.cartCount);
+        //console.log("mutation", state.storeList);
         return state;
     },
 
