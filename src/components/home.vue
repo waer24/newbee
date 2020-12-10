@@ -114,7 +114,7 @@ export default {
     };
   },
   async mounted() {
-    console.log(getLocal("token"));
+    // console.log(getLocal("token"));
     getLocal("token") ? (this.isLogin = true) : (this.isLogin = false);
     if (!this.isLogin) {
       this.$router.push("/login");
@@ -133,7 +133,7 @@ export default {
       this.$router.push({
         path: `/product/${item.goodsId}`,
       });
-     // console.log(item);
+      // console.log(item);
     },
     /*
     elmApp api use demo

@@ -13,21 +13,15 @@ const mutations = {
 
     [types.SET_INIT_LIST](state, { shopId, name, price }) {
         let store = state.storeList[shopId] || {};
-        // console.log(shopId);
         state.storeList[shopId] = {
             count: 1,
             shopId: shopId,
             name: name,
             price: price,
-        }; // console.log("storeList=======",this.storeList);
-
-        // state.cartCount = state.storeList[shopId].count;
+        };
         store = state.storeList[shopId]; // deep: store = JSON.parse(JSON.stringify(state.storeList[shopId])) */
-        // console.log(state.storeList);
-        //Vue.set(state.cartCount, Object.values(state.storeList).length);
-        // console.log("state.cartCount", state.cartCount);
-        //console.log("mutation", state.storeList);
-        return state;
+        // console.log("mutation页面: storeList=====", state.storeList);
+        return state.storeList;
     },
 
     [types.GET_CART_ADD](state, { shopId }) {

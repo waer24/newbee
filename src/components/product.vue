@@ -35,7 +35,7 @@
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
-          <i class="num">{{ calcCount }}</i
+          <i class="num">{{ sortCount }}</i
           ><!-- v-show="sortCount || sortCount > 0" -->
           <p class="txt">购物车</p>
         </div>
@@ -54,7 +54,6 @@
           class=" btn rt-radius"
           round
           color="linear-gradient(to right, #6bd8d8,#1baeae)"
-          @click="buyImmediately"
           >立即购买</van-button
         >
       </div>
@@ -65,7 +64,7 @@
 <script>
 import vHeader from "./../views/v-header";
 import { goodsDetail } from "./../api/goods";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import { Toast } from "vant";
 
 export default {
@@ -80,20 +79,18 @@ export default {
   },
   created() {
     this.getGoodsDetail();
-  },
-  computed: {
-    ...mapGetters([
-      "cartList",
-      "shopId",
-      "cartCount",
-      "storeList",
-      "sortCartCount",
-    ]),
 
-    calcCount() {
-      return Object.values(this.storeList).length;
-    },
+    this.sortCount = Object.keys(this.storeList).length;
+    // this.storeList
   },
+  /*  mounted() {
+
+  }, */
+
+  computed: {
+    ...mapGetters(["cartList", "shopId", "storeList"]),
+  },
+
   methods: {
     ...mapMutations(["SET_INIT_LIST"]),
     async getGoodsDetail() {
@@ -107,6 +104,7 @@ export default {
         path: "/cart",
       });
     },
+
     addCart() {
       // this.calcCount();
       //  Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值
@@ -117,34 +115,44 @@ export default {
           }
         }
       }
-
       this.SET_INIT_LIST({
         name: this.goods.goodsName,
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
       });
-
-      // return Object.values(this.storeList).length;
+      this.sortCount = Object.keys(this.storeList).length;
+      console.log(this.sortCount);
     },
-    buyImmediately() {},
   },
   watch: {
-    calcCount: {
+    /*    sortCount: {
+      handler: {
+        name: "addCart",
+      },
+      deep: true,
+      immediate: true,
+    }, */
+    /* sortCount: {
+      handler: function() {
+        this.sortCount = this.$store.getters.sortCartCount();
+      },
+      deep: true,
+      immediate: true,
+    }, */
+    // name: "addCart", // 监听事件
+    /* calcCount: {
       handler: function(newVal) {
-        if (
-          newVal &&
-          Object.prototype.hasOwnProperty.call(
-            this.storeList,
-            `${this.goods.goodsId}`
-          )
-        ) {
-          return Object.values(this.storeList).length;
-          // this.addCart();
+        if (this.storeList && Object.values(this.storeList).length !== 0) {
+          for (let key in this.storeList) {
+            if (Number(key) !== this.goods.goodsId) {
+              return Object.keys(this.storeList).length;
+            }
+          }
         }
       },
       deep: true,
       immediate: true,
-    },
+    }, */
   },
   components: {
     vHeader,
