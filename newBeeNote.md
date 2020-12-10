@@ -19,7 +19,8 @@
 
 2020/12/7-12
 
-1.  详情的购物车数量如何做到一点击会+1， 相同 id 第二次提示“已经添加了”，返回的时候也会有上一次的记录
-    1. 在页面统计，用 data（）记录一个 count，再监听点击事件， name： addCart 问题：只有点击的时候才显示出值
-    2. 页面统计，用 computed 返回一个值，监听值，
-    3. state 中创建值，mutatiion 赋值，页面引用，第二次更新没生效
+1.  详情的购物车数量如何做到一点击会+1， 相同 id 第二次提示“已经添加了”，返回的时候也会有上一次的记录。这个问题困扰了一周之久
+    1. 在页面统计，用 data（）记录一个 count，再监听点击事件， name： addCart 问题：只有点击的时候才显示出值 || 可以不用 watch，显示用 computed 增加 this.scortCount = Object.keys(this.storeList).length;
+    2. https://blog.csdn.net/weixin_45568648/article/details/108017668?utm_medium=distribute.pc_relevant.none-task-blog-title-2&spm=1001.2101.3001.4242
+    3. 页面统计，用 computed 返回一个值，监听值， || 出现数据更新在退回页面之后才能看到最新数据
+    4. state 中创建值，mutatiion 赋值，页面引用，第二次更新没生效 || vuex 不会监听数组的变化，文章衍生 https://segmentfault.com/a/1190000022772025
