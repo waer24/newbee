@@ -35,8 +35,7 @@
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
-          <i class="num">{{ sortCount }}</i
-          ><!-- v-show="sortCount || sortCount > 0" -->
+          <i class="num" v-show="sortCount > 0">{{ sortCount }}</i>
           <p class="txt">购物车</p>
         </div>
       </div>
@@ -81,11 +80,7 @@ export default {
     this.getGoodsDetail();
 
     this.sortCount = Object.keys(this.storeList).length;
-    // this.storeList
   },
-  /*  mounted() {
-
-  }, */
 
   computed: {
     ...mapGetters(["cartList", "shopId", "storeList"]),
@@ -121,38 +116,7 @@ export default {
         price: this.goods.sellingPrice,
       });
       this.sortCount = Object.keys(this.storeList).length;
-      console.log(this.sortCount);
     },
-  },
-  watch: {
-    /*    sortCount: {
-      handler: {
-        name: "addCart",
-      },
-      deep: true,
-      immediate: true,
-    }, */
-    /* sortCount: {
-      handler: function() {
-        this.sortCount = this.$store.getters.sortCartCount();
-      },
-      deep: true,
-      immediate: true,
-    }, */
-    // name: "addCart", // 监听事件
-    /* calcCount: {
-      handler: function(newVal) {
-        if (this.storeList && Object.values(this.storeList).length !== 0) {
-          for (let key in this.storeList) {
-            if (Number(key) !== this.goods.goodsId) {
-              return Object.keys(this.storeList).length;
-            }
-          }
-        }
-      },
-      deep: true,
-      immediate: true,
-    }, */
   },
   components: {
     vHeader,
