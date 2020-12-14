@@ -31,7 +31,7 @@
       <div class="left-btn">
         <div class="btn">
           <i class="iconfont iconcustomer"></i>
-          <p class="txt">客服</p>
+          <p class="txt" @click="a">客服</p>
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
@@ -65,6 +65,7 @@ import vHeader from "./../views/v-header";
 import { goodsDetail } from "./../api/goods";
 import { mapGetters, mapMutations, mapState } from "vuex";
 import { Toast } from "vant";
+import { target } from "./../api/target";
 
 export default {
   data() {
@@ -87,6 +88,9 @@ export default {
   },
 
   methods: {
+    a() {
+      target();
+    },
     ...mapMutations(["SET_INIT_LIST"]),
     async getGoodsDetail() {
       const { id } = this.$route.params;
