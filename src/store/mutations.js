@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { Toast } from "vant";
 import * as types from "./mutation-types";
-
+import { setStore } from "./../api/utils";
 const mutations = {
     [types.SET_SHOP_ID](state, id) {
         state.shopId = id;
@@ -11,16 +11,19 @@ const mutations = {
         state.storeList = list;
     },
 
-    [types.SET_INIT_LIST](state, { shopId, name, price }) {
+    [types.SET_INIT_LIST](state, { shopId, name, price, img }) {
         let store = state.storeList[shopId] || {};
+
         state.storeList[shopId] = {
             count: 1,
             shopId: shopId,
             name: name,
             price: price,
+            img: img,
         };
-        store = state.storeList[shopId]; // deep: store = JSON.parse(JSON.stringify(state.storeList[shopId])) */
-        // console.log("mutation页面: storeList=====", state.storeList);
+        store = state.storeList[shopId];
+        localStorage.setItem("storeList", JSON.stringify(state.storeList));
+        // setStore("storeList", state.storeList);
         return state.storeList;
     },
 

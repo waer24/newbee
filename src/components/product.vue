@@ -31,7 +31,7 @@
       <div class="left-btn">
         <div class="btn">
           <i class="iconfont iconcustomer"></i>
-          <p class="txt" @click="a">客服</p>
+          <p class="txt">客服</p>
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
@@ -65,7 +65,6 @@ import vHeader from "./../views/v-header";
 import { goodsDetail } from "./../api/goods";
 import { mapGetters, mapMutations, mapState } from "vuex";
 import { Toast } from "vant";
-import { target } from "./../api/target";
 
 export default {
   data() {
@@ -74,23 +73,22 @@ export default {
       goods: {},
       sortCount: 0,
       cartGoods: {}, // 产品页面的购物车
-      val: null,
+      list: this.$store.getters.storeList(),
     };
   },
   created() {
     this.getGoodsDetail();
 
-    this.sortCount = Object.keys(this.storeList).length;
+    if (this.list && this.list !== "null") {
+      this.sortCount = Object.keys(this.list).length;
+    }
   },
 
   computed: {
-    ...mapGetters(["cartList", "shopId", "storeList"]),
+    // ...mapGetters(["cartList", "shopId", "storeList"]),
   },
 
   methods: {
-    a() {
-      target();
-    },
     ...mapMutations(["SET_INIT_LIST"]),
     async getGoodsDetail() {
       const { id } = this.$route.params;
@@ -107,8 +105,8 @@ export default {
     addCart() {
       // this.calcCount();
       //  Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值
-      if (this.storeList && Object.values(this.storeList).length !== 0) {
-        for (let key in this.storeList) {
+      if (this.list && Object.values(this.list).length !== 0) {
+        for (let key in this.list) {
           if (Number(key) === this.goods.goodsId) {
             Toast.fail("已经添加过啦~");
           }
@@ -119,7 +117,9 @@ export default {
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
       });
-      this.sortCount = Object.keys(this.storeList).length;
+      console.log(this.list);
+
+      this.sortCount = Object.keys(this.list).length;
     },
   },
   components: {

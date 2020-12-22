@@ -5,7 +5,7 @@
       <scroll :scroll-data="list" class="scroll">
         <div class="list">
           <ul>
-            <li class="item">
+            <li class="item" v-for="item in list" :key="item.shopId">
               <div class="item-inner">
                 <div class="checkbox">
                   <van-checkbox-group v-model="result">
@@ -16,16 +16,17 @@
                   </van-checkbox-group>
                 </div>
                 <div class="img">
-                  <img src="" alt="" width="60" height="80" />
+                  <img :src="item.img" alt="" width="60" height="80" />
                 </div>
                 <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
+                  <p class="title">{{ item.name }}</p>
+                  <p class="quantity">
+                    X&nbsp;<span>{{ item.count }}</span>
                   </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
                   <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
+                    <span class="num"
+                      ><i class="charc">￥</i>{{ item.price }}</span
+                    >
                     <div class="btn-operator">
                       <span class="reduce" @click="radio"
                         ><i class="iconfont iconreduce"></i
@@ -35,265 +36,7 @@
                         aria-valuenow="4"
                         aria-valuemin="1"
                         class="ipt"
-                      />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
-                </div>
-                <div class="img">
-                  <img src="" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
-                  </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
-                  <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
-                    <div class="btn-operator">
-                      <span class="reduce" @click="radio"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
-                      />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
-                </div>
-                <div class="img">
-                  <img src="" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
-                  </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
-                  <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
-                    <div class="btn-operator">
-                      <span class="reduce" @click="radio"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
-                      />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
-                </div>
-                <div class="img">
-                  <img src="" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
-                  </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
-                  <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
-                    <div class="btn-operator">
-                      <span class="reduce" @click="radio"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
-                      />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
-                </div>
-                <div class="img">
-                  <img src="" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
-                  </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
-                  <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
-                    <div class="btn-operator">
-                      <span class="reduce" @click="radio"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
-                      />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
-                </div>
-                <div class="img">
-                  <img src="" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
-                  </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
-                  <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
-                    <div class="btn-operator">
-                      <span class="reduce" @click="radio"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
-                      />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
-                </div>
-                <div class="img">
-                  <img src="" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
-                  </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
-                  <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
-                    <div class="btn-operator">
-                      <span class="reduce" @click="radio"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
-                      />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="item">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
-                </div>
-                <div class="img">
-                  <img src="" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">
-                    HUAWEI Mate 40 Pro+ 5G 全网通
-                    全网通全网通全网通全网通全网通全网通全网通通全网通全网通全网通全网通全网通全网通
-                  </p>
-                  <p class="quantity">X&nbsp;<span>4</span></p>
-                  <div class="info">
-                    <span class="num"><i class="charc">￥</i>4243</span>
-                    <div class="btn-operator">
-                      <span class="reduce" @click="radio"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
+                        :value="item.count"
                       />
                       <span class="add"><i class="iconfont iconadd"></i></span>
                     </div>
@@ -338,7 +81,7 @@ export default {
     return {
       name: "购物车",
       result: ["a", "b"],
-      list: Array.from(this.$store.getters.storeList),
+      list: Object.values(this.$store.getters.storeList), // 购物车对象转数组,因为没有length属性，不能用array.from转化
     };
   },
   created() {},
@@ -346,11 +89,11 @@ export default {
   mounted() {},
 
   computed: {
-    ...mapGetters(["storeList"]),
+    ...mapGetters(["storeList", "alist"]),
   },
   methods: {
     radio() {
-      console.log(this.storeList);
+      console.log(this.$store.getters.storeList);
     },
   },
   watch: {},
@@ -367,9 +110,11 @@ export default {
   width: 100%;
   height: 100%;
   .list-wrapper {
-    height: 100%;
-    margin-bottom: 300px;
+    position: fixed;
+    bottom: 3rem;
+    top: 1rem;
     .scroll {
+      position: relative;
       height: 100%;
       overflow: hidden;
 
@@ -405,8 +150,8 @@ export default {
               }
               .quantity {
                 position: absolute;
-                top: 7px;
-                right: 7px;
+                top: 2px;
+                right: 6px;
 
                 margin: 0;
                 padding: 0;
@@ -455,9 +200,9 @@ export default {
     }
   }
   .footer {
-    position: relative;
-
-    // height: 120px;
+    position: fixed;
+    bottom: 0;
+    height: 3rem;
 
     overflow: hidden;
 
