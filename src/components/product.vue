@@ -73,23 +73,29 @@ export default {
       goods: {},
       sortCount: 0,
       cartGoods: {}, // 产品页面的购物车
-      list: this.$store.getters.storeList(),
     };
   },
   created() {
     this.getGoodsDetail();
-
-    if (this.list && this.list !== "null") {
-      this.sortCount = Object.keys(this.list).length;
-    }
+    this.isHaveList();
   },
 
   computed: {
-    // ...mapGetters(["cartList", "shopId", "storeList"]),
+    ...mapGetters(["cartList", "shopId", "storeList"]),
   },
 
   methods: {
     ...mapMutations(["SET_INIT_LIST"]),
+    isHaveList() {
+      if (
+        localStorage.getItem("storeList") === null || // null !== null，因此把null的情况放前面
+        localStorage.getItem("storeList") === undefined
+      ) {
+        this.sortCount = 0;
+      } else {
+        this.sortCount = Object.keys(this.storeList()).length;
+      }
+    },
     async getGoodsDetail() {
       const { id } = this.$route.params;
       const { data } = await goodsDetail(id);
@@ -105,8 +111,9 @@ export default {
     addCart() {
       // this.calcCount();
       //  Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值
-      if (this.list && Object.values(this.list).length !== 0) {
-        for (let key in this.list) {
+      console.log("storeList", this.storeList());
+      if (this.storeList() && Object.values(this.storeList()).length !== 0) {
+        for (let key in this.storeList()) {
           if (Number(key) === this.goods.goodsId) {
             Toast.fail("已经添加过啦~");
           }
@@ -117,9 +124,7 @@ export default {
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
       });
-      console.log(this.list);
-
-      this.sortCount = Object.keys(this.list).length;
+      this.isHaveList();
     },
   },
   components: {
