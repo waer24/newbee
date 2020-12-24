@@ -5,15 +5,16 @@
       <scroll :scroll-data="list" class="scroll">
         <div class="list">
           <ul>
-            <li class="item" v-for="item in list" :key="item.shopId">
+            <li class="item" v-for="(item, index) in list" :key="item.shopId">
               <div class="item-inner">
                 <div class="checkbox">
-                  <van-checkbox-group v-model="result">
-                    <van-checkbox
-                      name="a"
-                      checked-color="#1baeae"
-                    ></van-checkbox>
-                  </van-checkbox-group>
+                  <van-checkbox
+                    v-model="item.isCheck"
+                    :name="item.shopId"
+                    checked-color="#1baeae"
+                    @click="checkOne(index)"
+                  ></van-checkbox>
+                  <!-- name 等价于 普通input框中的value -->
                 </div>
                 <div class="img">
                   <img :src="item.img" alt="" width="60" height="80" />
@@ -51,12 +52,16 @@
     <footer class="footer">
       <div class="total">
         <div class="lf">
-          <van-checkbox name="a"></van-checkbox>
+          <van-checkbox
+            checked-color="#1baeae"
+            v-model="isAllChecked"
+            @click="checkAll()"
+          ></van-checkbox>
           <span class="allselect">全选</span>
         </div>
         <div class="ct">
           <span class="sum">合计:</span><i class="charc">￥</i>
-          <p class="num">54234.00</p>
+          <p class="num">{{ sum }}</p>
         </div>
 
         <van-button type="primary" color="#1baeae" round class="rt"
@@ -71,7 +76,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import vHeader from "./../views/v-header";
 import vNav from "./../views/v-nav";
 import scroll from "./../views/scroll";
@@ -80,20 +84,59 @@ export default {
   data() {
     return {
       name: "购物车",
-      result: ["a", "b"],
-      list: Object.values(this.$store.getters.storeList), // 购物车对象转数组,因为没有length属性，不能用array.from转化
+
+      isAllChecked: false, // 全选
+      list: Object.values(this.$store.getters.storeList()), // 购物车对象转数组,因为没有length属性，不能用array.from转化
     };
   },
-  created() {},
+  created() {
+    //  this.totalPrice();
+  },
 
   mounted() {},
-
   computed: {
-    ...mapGetters(["storeList", "alist"]),
+    totalPrice() {
+      let sum = 0;
+      this.list.map((value) => {
+        if (value.isCheck) {
+          sum += value.price;
+        }
+      });
+      return sum;
+    },
   },
+
   methods: {
     radio() {
-      console.log(this.$store.getters.storeList);
+      console.log(this.list);
+      for (let i = 0; i < this.list.length; i++) {
+        console.log(this.list[i]);
+      }
+    },
+    checkOne() {
+      this.list.some((item) => {
+        // 只要一个不勾选，全选取消
+        if (item.isCheck === false) {
+          this.isAllChecked = false;
+        }
+      });
+      this.list.every((item) => {
+        // 只有所有的勾选，全选激活
+        if (item.isCheck) {
+          this.isAllChecked = true;
+        }
+      });
+    },
+    checkAll() {
+      if (this.isAllChecked === false) {
+        this.list.map((value) => {
+          value.isCheck = false;
+        });
+      } else {
+        this.list.map((value) => {
+          value.isCheck = true;
+        });
+      }
     },
   },
   watch: {},

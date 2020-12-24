@@ -11,7 +11,7 @@ const mutations = {
         state.storeList = list;
     },
 
-    [types.SET_INIT_LIST](state, { shopId, name, price, img }) {
+    [types.SET_INIT_LIST](state, { shopId, name, price, img, isCheck }) {
         let store = state.storeList[shopId] || {};
 
         state.storeList[shopId] = {
@@ -20,6 +20,7 @@ const mutations = {
             name: name,
             price: price,
             img: img,
+            isCheck: isCheck
         };
         store = state.storeList[shopId];
         localStorage.setItem("storeList", JSON.stringify(state.storeList));

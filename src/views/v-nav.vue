@@ -12,7 +12,8 @@
       </router-link>
       <router-link tag="li" to="/shopcar" class="item">
         <span class="icon"
-          ><i class="iconfont iconshopcar icon"></i> <i class="num">11</i></span
+          ><i class="iconfont iconshopcar icon"></i>
+          <i class="num">{{ sortCount }}</i></span
         ><!--  cartCount -->
 
         <span>购物车</span>
@@ -26,11 +27,32 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      sortCount: 0,
+    };
+  },
+  created() {
+    this.isHaveList();
+  },
+  methods: {
+    isHaveList() {
+      if (
+        localStorage.getItem("storeList") === null || // null !== null，因此把null的情况放前面
+        localStorage.getItem("storeList") === undefined
+      ) {
+        this.sortCount = 0;
+      } else {
+        this.sortCount = Object.keys(this.$store.getters.storeList()).length;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import './../common/style/mixin.scss';
+@import "./../common/style/mixin.scss";
 .nav-bar {
   position: fixed;
 
@@ -82,5 +104,4 @@ export default {};
     }
   }
 }
-
 </style>

@@ -11,7 +11,7 @@ const getters = {
             console.log("没有数据啦");
             return;
         } else {
-            let list = JSON.parse(localStorage.getItem("storeList"));
+            let list = JSON.parse(localStorage.getItem("storeList")); // 从localstorage中取值
             console.log("getters==>", list);
             return list;
         }

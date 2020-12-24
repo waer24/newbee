@@ -73,6 +73,7 @@ export default {
       goods: {},
       sortCount: 0,
       cartGoods: {}, // 产品页面的购物车
+      isCheck:false, // 定义购物车是否选中计费
     };
   },
   created() {
@@ -123,6 +124,8 @@ export default {
         name: this.goods.goodsName,
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
+        img: this.goods.goodsCoverImg,
+        isCheck: this.isCheck
       });
       this.isHaveList();
     },

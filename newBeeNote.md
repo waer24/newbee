@@ -24,3 +24,9 @@
     2. https://blog.csdn.net/weixin_45568648/article/details/108017668?utm_medium=distribute.pc_relevant.none-task-blog-title-2&spm=1001.2101.3001.4242
     3. 页面统计，用 computed 返回一个值，监听值， || 出现数据更新在退回页面之后才能看到最新数据
     4. state 中创建值，mutatiion 赋值，页面引用，第二次更新没生效 || vuex 不会监听数组的变化，文章衍生 https://segmentfault.com/a/1190000022772025
+
+12/21-12-25
+TODO
+
+1. 加入购物车的频繁点击 ， this.storeList()的代码优化
+2. checkOne() 函数优化，只用一个循环完成?
