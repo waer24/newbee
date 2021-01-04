@@ -29,7 +29,7 @@
                       ><i class="charc">￥</i>{{ item.price }}</span
                     >
                     <div class="btn-operator">
-                      <span class="reduce" @click="radio"
+                      <span class="reduce" @click="reduceQty(item)"
                         ><i class="iconfont iconreduce"></i
                       ></span>
                       <input
@@ -79,39 +79,33 @@
 import vHeader from "./../views/v-header";
 import vNav from "./../views/v-nav";
 import scroll from "./../views/scroll";
+import { mapMutations } from "vuex";
 
 export default {
   data() {
     return {
       name: "购物车",
-
       isAllChecked: false, // 全选
       list: Object.values(this.$store.getters.storeList()), // 购物车对象转数组,因为没有length属性，不能用array.from转化
+      sum: 0,
     };
   },
-  created() {
-    //  this.totalPrice();
-  },
 
-  mounted() {},
   computed: {
-    totalPrice() {
-      let sum = 0;
-      this.list.map((value) => {
-        if (value.isCheck) {
-          sum += value.price;
-        }
-      });
-      return sum;
-    },
+    ...mapGetters(["cartList", "shopId", "storeList"]),
   },
 
   methods: {
-    radio() {
-      console.log(this.list);
-      for (let i = 0; i < this.list.length; i++) {
-        console.log(this.list[i]);
-      }
+    ...mapMutations(["GET_CART_ADD"], ["GET_CART_REDUCE"]),
+    reduceQty(item) {
+      this.sum = 0;
+      this.list.map((value) => {
+        if (value.isCheck) {
+          this.sum += value.price;
+        }
+        return this.sum;
+      });
+    //  this.GET_CART_REDUCE({ shopId: item.shopId });
     },
     checkOne() {
       this.list.some((item) => {
@@ -139,7 +133,6 @@ export default {
       }
     },
   },
-  watch: {},
 
   components: { vHeader, vNav, scroll },
 };
