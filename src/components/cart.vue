@@ -79,7 +79,7 @@
 import vHeader from "./../views/v-header";
 import vNav from "./../views/v-nav";
 import scroll from "./../views/scroll";
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -97,7 +97,7 @@ export default {
 
   methods: {
     ...mapMutations(["GET_CART_ADD"], ["GET_CART_REDUCE"]),
-    reduceQty(item) {
+    reduceQty() {
       this.sum = 0;
       this.list.map((value) => {
         if (value.isCheck) {
@@ -105,32 +105,42 @@ export default {
         }
         return this.sum;
       });
-    //  this.GET_CART_REDUCE({ shopId: item.shopId });
+      //  this.GET_CART_REDUCE({ shopId: item.shopId });
     },
     checkOne() {
-      this.list.some((item) => {
-        // 只要一个不勾选，全选取消
-        if (item.isCheck === false) {
-          this.isAllChecked = false;
-        }
-      });
-      this.list.every((item) => {
+      this.sum = 0;
+      this.list.every((value) => {
         // 只有所有的勾选，全选激活
-        if (item.isCheck) {
+        if (value.isCheck) {
           this.isAllChecked = true;
         }
       });
+      this.list.some((value) => {
+        // 只要一个不勾选，全选取消
+        if (value.isCheck === false) {
+          this.isAllChecked = false;
+        }
+      });
+      this.list.map((value) => {
+        if (value.isCheck) {
+          this.sum += value.price;
+        }
+      });
+      return this.sum;
     },
     checkAll() {
-      if (this.isAllChecked === false) {
+      this.sum = 0;
+      if (this.isAllChecked) {
         this.list.map((value) => {
-          value.isCheck = false;
+          value.isCheck = true;
+          this.sum += value.price;
         });
       } else {
         this.list.map((value) => {
-          value.isCheck = true;
+          value.isCheck = false;
         });
       }
+      return this.sum;
     },
   },
 
@@ -263,7 +273,11 @@ export default {
       }
       .ct {
         display: flex;
+        width: 110px;
         align-items: center;
+        .sum {
+          width: 40px;
+        }
         .charc {
           font-style: normal;
 

@@ -30,3 +30,4 @@ TODO
 
 1. 加入购物车的频繁点击 ， this.storeList()的代码优化
 2. checkOne() 函数优化，只用一个循环完成?
+3. cart.vue checkOne()函数是否可以优化

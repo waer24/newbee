@@ -6,7 +6,6 @@ export function getUserInfo(data = {}) {
 
 // 根据登录接口传递
 export function login(params) {
-
     return axios.post("user/login", params);
 }
 
