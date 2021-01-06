@@ -34,7 +34,7 @@
     1.  this.list = "";
         this.list = Object.values(JSON.parse(localStorage.getItem("storeList")));
     2.  类似问题：添加问题不更新： https://juejin.cn/post/6844903765951119368
-3.数据源不一致
+3.数据源不一致导致的点击问题
 
 12/21-12-25
 TODO
