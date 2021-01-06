@@ -12,7 +12,7 @@ const getters = {
             return;
         } else {
             let list = JSON.parse(localStorage.getItem("storeList")); // 从localstorage中取值
-            console.log("getters==>", list);
+            // console.log("getters---", list);
             return list;
         }
     },

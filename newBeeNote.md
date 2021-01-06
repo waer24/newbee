@@ -25,6 +25,17 @@
     3. 页面统计，用 computed 返回一个值，监听值， || 出现数据更新在退回页面之后才能看到最新数据
     4. state 中创建值，mutatiion 赋值，页面引用，第二次更新没生效 || vuex 不会监听数组的变化，文章衍生 https://segmentfault.com/a/1190000022772025
 
+2021/1/5-1-10
+
+1.            ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
+    ...mapMutations(["GET_CART_ADD"], ["GET_CART_REDUCE"]),
+    第二个错误，报错 GET_CART_REDUCE is not a function ,找错误很久没发现，非常低级的错误。第一个正确，
+2.  vue 数据不实时更新（数据更改了，但数据不实时更新），点击加减购物车数量. 蠢办法，重新赋值
+    1.  this.list = "";
+        this.list = Object.values(JSON.parse(localStorage.getItem("storeList")));
+    2.  类似问题：添加问题不更新： https://juejin.cn/post/6844903765951119368
+3.
+
 12/21-12-25
 TODO
 

@@ -29,7 +29,7 @@
                       ><i class="charc">￥</i>{{ item.price }}</span
                     >
                     <div class="btn-operator">
-                      <span class="reduce" @click="reduceQty(item)"
+                      <span class="reduce" @click="reduceQty(item.shopId)"
                         ><i class="iconfont iconreduce"></i
                       ></span>
                       <input
@@ -39,7 +39,9 @@
                         class="ipt"
                         :value="item.count"
                       />
-                      <span class="add"><i class="iconfont iconadd"></i></span>
+                      <span class="add" @click="addQty(item.shopId, index)"
+                        ><i class="iconfont iconadd"></i
+                      ></span>
                     </div>
                   </div>
                 </div>
@@ -96,16 +98,21 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["GET_CART_ADD"], ["GET_CART_REDUCE"]),
-    reduceQty() {
-      this.sum = 0;
-      this.list.map((value) => {
-        if (value.isCheck) {
-          this.sum += value.price;
-        }
-        return this.sum;
-      });
-      //  this.GET_CART_REDUCE({ shopId: item.shopId });
+    ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
+    addQty(item, index) {
+      // this.sum = 0;
+      this.GET_CART_ADD({ shopId: item });
+      //  console.log(this.list[index]);
+      if (this.list[index].isCheck) {
+        this.sum += this.list[index].price * this.list[index].count;
+      }
+      this.list = Object.values(this.$store.getters.storeList()); // 重新对list取值，否则不会实时更新数据
+      return this.sum;
+    },
+
+    reduceQty(item) {
+      this.GET_CART_REDUCE({ shopId: item });
+      this.list = Object.values(this.$store.getters.storeList());
     },
     checkOne() {
       this.sum = 0;
@@ -113,6 +120,7 @@ export default {
         // 只有所有的勾选，全选激活
         if (value.isCheck) {
           this.isAllChecked = true;
+          console.log(value.isCheck);
         }
       });
       this.list.some((value) => {
@@ -123,9 +131,10 @@ export default {
       });
       this.list.map((value) => {
         if (value.isCheck) {
-          this.sum += value.price;
+          this.sum += value.price * value.count;
         }
       });
+
       return this.sum;
     },
     checkAll() {
@@ -133,7 +142,7 @@ export default {
       if (this.isAllChecked) {
         this.list.map((value) => {
           value.isCheck = true;
-          this.sum += value.price;
+          this.sum += value.price * value.count;
         });
       } else {
         this.list.map((value) => {
@@ -143,6 +152,16 @@ export default {
       return this.sum;
     },
   },
+
+  /*   watch: {
+    list: {
+      handler: function(newVal) {
+        console.log(newVal);
+      },
+      deep: true,
+      immediate: true,
+    },
+  }, */
 
   components: { vHeader, vNav, scroll },
 };

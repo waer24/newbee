@@ -24,34 +24,39 @@ const mutations = {
         };
         store = state.storeList[shopId];
         localStorage.setItem("storeList", JSON.stringify(state.storeList));
-
-        // setStore("storeList", state.storeList);
-        // console.log("mutation", state.storeList);
         return state.storeList;
     },
 
     [types.GET_CART_ADD](state, { shopId }) {
-        if (state.storeList && state.storeList[shopId]) {
-            state.storeList[shopId].count++;
-            if (state.storeList[shopId].count >= 5) {
-                Toast.fail("不能再加了噢~");
-            }
+        let list = JSON.parse(localStorage.getItem("storeList"));
+        if (list && list[shopId]) {
+            list[shopId].count < 5 ?
+                list[shopId].count++
+                :
+                Toast.fail("主人，不能再加啦");
         }
-        localStorage.setItem("storeList", JSON.stringify(state.storeList));
-        console.log("mutation:", state.storeList);
-        return state.storeList;
+        localStorage.setItem("storeList", JSON.stringify(list));
+        // console.log("mutation:", list[shopId]);
+        return list;
     },
 
     [types.GET_CART_REDUCE](state, { shopId }) {
-        console.log(state.storeList);
-        if (state.storeList && state.storeList[shopId]) {
-            state.storeList[shopId].count--;
-            if (state.storeList[shopId].count === 1) {
-                state.storeList[shopId].count = 1;
+        // state有隐形的用到，不能删除
+        let list = JSON.parse(localStorage.getItem("storeList"));
+        if (list && list[shopId]) {
+            // console.log(list[shopId]);
+            if (list[shopId].count === 1) {
+                list[shopId].count = 1;
                 Toast.fail("主人，不能再少了");
+                return;
+            } else {
+                list[shopId].count--;
             }
         }
-        return state.storeList;
+
+        localStorage.setItem("storeList", JSON.stringify(list));
+        // console.log(list[shopId]);
+        return list;
     },
 };
 
