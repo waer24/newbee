@@ -13,7 +13,6 @@ const mutations = {
 
     [types.SET_INIT_LIST](state, { shopId, name, price, img, isCheck }) {
         let store = state.storeList[shopId] || {};
-
         state.storeList[shopId] = {
             count: 1,
             shopId: shopId,
@@ -36,7 +35,7 @@ const mutations = {
                 Toast.fail("主人，不能再加啦");
         }
         localStorage.setItem("storeList", JSON.stringify(list));
-        // console.log("mutation:", list[shopId]);
+        console.log("mutation:", list[shopId].count);
         return list;
     },
 

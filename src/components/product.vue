@@ -50,7 +50,7 @@
         >
         <van-button
           type="primary"
-          class=" btn rt-radius"
+          class="btn rt-radius"
           round
           color="linear-gradient(to right, #6bd8d8,#1baeae)"
           >立即购买</van-button
@@ -112,7 +112,7 @@ export default {
     addCart() {
       // this.calcCount();
       //  Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值
-      console.log("storeList", this.storeList());
+      // console.log("storeList", this.storeList());
       if (this.storeList() && Object.values(this.storeList()).length !== 0) {
         for (let key in this.storeList()) {
           if (Number(key) === this.goods.goodsId) {

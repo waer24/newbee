@@ -29,7 +29,9 @@
                       ><i class="charc">￥</i>{{ item.price }}</span
                     >
                     <div class="btn-operator">
-                      <span class="reduce" @click="reduceQty(item.shopId)"
+                      <span
+                        class="reduce"
+                        @click="reduceQty(item.shopId, index)"
                         ><i class="iconfont iconreduce"></i
                       ></span>
                       <input
@@ -81,6 +83,7 @@
 import vHeader from "./../views/v-header";
 import vNav from "./../views/v-nav";
 import scroll from "./../views/scroll";
+import { Toast } from "vant";
 import { mapMutations, mapGetters } from "vuex";
 
 export default {
@@ -88,7 +91,7 @@ export default {
     return {
       name: "购物车",
       isAllChecked: false, // 全选
-      list: Object.values(this.$store.getters.storeList()), // 购物车对象转数组,因为没有length属性，不能用array.from转化
+      list: this.$store.getters.storeList(), // 购物车对象转数组,因为没有length属性，不能用array.from转化
       sum: 0,
     };
   },
@@ -99,20 +102,38 @@ export default {
 
   methods: {
     ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
-    addQty(item, index) {
+    addQty(shopId, index) {
       // this.sum = 0;
-      this.GET_CART_ADD({ shopId: item });
-      //  console.log(this.list[index]);
-      if (this.list[index].isCheck) {
-        this.sum += this.list[index].price * this.list[index].count;
+      // this.GET_CART_ADD({ shopId: item });
+
+      if (this.list && this.list[index] && this.list[index].count < 5) {
+        this.list[index].count++;
+        if (this.list[index].isCheck) {
+          this.sum += this.list[index].price * this.list[index].count;
+        }
+      } else {
+        Toast.fail("主人，不能再加啦");
       }
-      this.list = Object.values(this.$store.getters.storeList()); // 重新对list取值，否则不会实时更新数据
+      localStorage.setItem("storeList", JSON.stringify(this.list));
+
       return this.sum;
     },
 
-    reduceQty(item) {
-      this.GET_CART_REDUCE({ shopId: item });
-      this.list = Object.values(this.$store.getters.storeList());
+    reduceQty(item, index) {
+      // this.GET_CART_REDUCE({ shopId: item });
+      // this.list = Object.values(this.$store.getters.storeList());
+      if (this.list && this.list[index]) {
+        // console.log(list[shopId]);
+        if (this.list[index].count === 1) {
+          this.list[index].count = 1;
+          Toast.fail("主人，不能再少了");
+          return;
+        } else {
+          this.list[index].count--;
+        }
+      }
+
+      localStorage.setItem("storeList", JSON.stringify(this.list));
     },
     checkOne() {
       this.sum = 0;
