@@ -35,7 +35,7 @@
         </div>
         <div class="cart-btn" @click="gotoCart">
           <i class="iconfont iconshopcar"></i>
-          <i class="num" v-show="sortCount > 0">{{ sortCount }}</i>
+          <i class="num" v-show="cartCount > 0">{{ cartCount }}</i>
           <p class="txt">购物车</p>
         </div>
       </div>
@@ -71,23 +71,23 @@ export default {
     return {
       name: "商品详情",
       goods: {},
-      sortCount: 0,
+      //  sortCount: 0,
       cartGoods: {}, // 产品页面的购物车
       isCheck: false, // 定义购物车是否选中计费
     };
   },
   created() {
     this.getGoodsDetail();
-    this.isHaveList();
+    this.SET_CART_COUNT();
   },
 
   computed: {
-    ...mapGetters(["cartList", "shopId", "storeList"]),
+    ...mapGetters(["shopId", "storeList", "cartCount"]),
   },
 
   methods: {
-    ...mapMutations(["SET_INIT_LIST"]),
-    isHaveList() {
+    ...mapMutations(["SET_INIT_LIST", "SET_CART_COUNT"]),
+    /*  isHaveList() {
       if (
         localStorage.getItem("storeList") === null || // null !== null，因此把null的情况放前面
         localStorage.getItem("storeList") === undefined
@@ -96,7 +96,7 @@ export default {
       } else {
         this.sortCount = Object.keys(this.storeList()).length;
       }
-    },
+    }, */
     async getGoodsDetail() {
       const { id } = this.$route.params;
       const { data } = await goodsDetail(id);
@@ -110,7 +110,7 @@ export default {
     },
 
     addCart() {
-      // this.calcCount();
+      console.log("storeList===", this.storeList());
       //  Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值
       // console.log("storeList", this.storeList());
       if (this.storeList() && Object.values(this.storeList()).length !== 0) {
@@ -127,7 +127,7 @@ export default {
         img: this.goods.goodsCoverImg,
         isCheck: this.isCheck,
       });
-      this.isHaveList();
+        this.SET_CART_COUNT(); // 重新计算购物车数量
     },
   },
   components: {

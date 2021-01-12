@@ -5,49 +5,64 @@
       <scroll :scroll-data="list" class="scroll">
         <div class="list">
           <ul>
-            <li class="item" v-for="(item, index) in list" :key="item.shopId">
-              <div class="item-inner">
-                <div class="checkbox">
-                  <van-checkbox
-                    v-model="item.isCheck"
-                    :name="item.shopId"
-                    checked-color="#1baeae"
-                    @click="checkOne(index)"
-                  ></van-checkbox>
-                  <!-- name 等价于 普通input框中的value -->
-                </div>
-                <div class="img">
-                  <img :src="item.img" alt="" width="60" height="80" />
-                </div>
-                <div class="desc">
-                  <p class="title">{{ item.name }}</p>
-                  <p class="quantity">
-                    X&nbsp;<span>{{ item.count }}</span>
-                  </p>
-                  <div class="info">
-                    <span class="num"
-                      ><i class="charc">￥</i>{{ item.price }}</span
-                    >
-                    <div class="btn-operator">
-                      <span
-                        class="reduce"
-                        @click="reduceQty(item.shopId, index)"
-                        ><i class="iconfont iconreduce"></i
-                      ></span>
-                      <input
-                        type="number"
-                        aria-valuenow="4"
-                        aria-valuemin="1"
-                        class="ipt"
-                        :value="item.count"
-                      />
-                      <span class="add" @click="addQty(item.shopId, index)"
-                        ><i class="iconfont iconadd"></i
-                      ></span>
+            <li v-for="(item, index) in list" :key="item.shopId" ref="item">
+              <van-swipe-cell class="item" :before-close="onClose(item, index)"
+                ><!-- -->
+                <template>
+                  <div class="item-inner">
+                    <div class="checkbox">
+                      <van-checkbox
+                        v-model="item.isCheck"
+                        :name="item.shopId"
+                        checked-color="#1baeae"
+                        @click="checkOne"
+                      ></van-checkbox>
+                      <!-- name 等价于 普通input框中的value -->
+                    </div>
+                    <div class="img">
+                      <img :src="item.img" alt="" width="60" height="80" />
+                    </div>
+                    <div class="desc">
+                      <p class="title">{{ item.name }}</p>
+                      <p class="quantity">
+                        X&nbsp;<span>{{ item.count }}</span>
+                      </p>
+                      <div class="info">
+                        <span class="num"
+                          ><i class="charc">￥</i>{{ item.price }}</span
+                        >
+                        <div class="btn-operator">
+                          <span
+                            class="reduce"
+                            @click="reduceQty(item.shopId, index)"
+                            ><i class="iconfont iconreduce"></i
+                          ></span>
+                          <input
+                            type="number"
+                            aria-valuenow="4"
+                            aria-valuemin="1"
+                            class="ipt"
+                            :value="item.count"
+                          />
+                          <span class="add" @click="addQty(item.shopId, index)"
+                            ><i class="iconfont iconadd"></i
+                          ></span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </template>
+                <template slot="right">
+                  <div class="rt-btn">
+                    <van-button
+                      square
+                      text="删除"
+                      type="danger"
+                      class="delete-button"
+                    ></van-button>
+                  </div>
+                </template>
+              </van-swipe-cell>
             </li>
           </ul>
         </div>
@@ -83,7 +98,7 @@
 import vHeader from "./../views/v-header";
 import vNav from "./../views/v-nav";
 import scroll from "./../views/scroll";
-import { Toast } from "vant";
+import { Dialog, Toast } from "vant";
 import { mapMutations, mapGetters } from "vuex";
 
 export default {
@@ -91,21 +106,18 @@ export default {
     return {
       name: "购物车",
       isAllChecked: false, // 全选
-      list: this.$store.getters.storeList(), // 购物车对象转数组,因为没有length属性，不能用array.from转化
+      list: Object.values(this.$store.getters.storeList()), // 购物车对象转数组,因为没有length属性，不能用array.from转化
       sum: 0,
     };
   },
 
   computed: {
-    ...mapGetters(["cartList", "shopId", "storeList"]),
+    ...mapGetters(["shopId", "storeList"]),
   },
 
   methods: {
-    ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
+    ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE", "SET_CART_COUNT"]),
     addQty(shopId, index) {
-      // this.sum = 0;
-      // this.GET_CART_ADD({ shopId: item });
-
       if (this.list && this.list[index] && this.list[index].count < 5) {
         this.list[index].count++;
         if (this.list[index].isCheck) {
@@ -120,17 +132,14 @@ export default {
     },
 
     reduceQty(item, index) {
-      // this.GET_CART_REDUCE({ shopId: item });
-      // this.list = Object.values(this.$store.getters.storeList());
-      if (this.list && this.list[index]) {
-        // console.log(list[shopId]);
-        if (this.list[index].count === 1) {
-          this.list[index].count = 1;
-          Toast.fail("主人，不能再少了");
-          return;
-        } else {
-          this.list[index].count--;
+      if (this.list && this.list[index] && this.list[index].count !== 1) {
+        this.list[index].count--;
+        if (this.list[index].isCheck) {
+          this.sum += this.list[index].price * this.list[index].count;
         }
+      } else {
+        this.list[index].count = 1;
+        Toast.fail("主人，不能再少了");
       }
 
       localStorage.setItem("storeList", JSON.stringify(this.list));
@@ -159,6 +168,7 @@ export default {
       return this.sum;
     },
     checkAll() {
+      console.log(this.list);
       this.sum = 0;
       if (this.isAllChecked) {
         this.list.map((value) => {
@@ -172,17 +182,34 @@ export default {
       }
       return this.sum;
     },
-  },
 
-  /*   watch: {
-    list: {
-      handler: function(newVal) {
-        console.log(newVal);
-      },
-      deep: true,
-      immediate: true,
+    onClose(item, index) {
+      // instance 是SwipeCell 实例，用于调用实例方法
+      return function({ position, instance }) {
+        switch (position) {
+          case "outside":
+            instance.close();
+            break;
+          case "right":
+            Dialog.confirm({
+              message: "主人， 确定删除咩？",
+            })
+              .then(() => {
+                // item.style.display = "none";
+                let list = JSON.parse(localStorage.getItem("storeList"));
+                //console.log(list[index]);
+                localStorage.removeItem(list[index]);
+                this.SET_CART_COUNT();
+              })
+
+              .catch((e) => {
+                console.log(e);
+              });
+            break;
+        }
+      };
     },
-  }, */
+  },
 
   components: { vHeader, vNav, scroll },
 };
@@ -207,7 +234,7 @@ export default {
       .list {
         background-color: #fff;
         .item {
-          padding: 10px;
+          margin: 10px;
           .item-inner {
             display: flex;
             align-items: center;
@@ -280,6 +307,13 @@ export default {
                 }
               }
             }
+          }
+          .rt-btn {
+            height: 100%;
+            overflow: hidden;
+          }
+          .delete-button {
+            height: 100%;
           }
         }
       }

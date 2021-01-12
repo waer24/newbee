@@ -9,6 +9,8 @@ import { Field } from "vant";
 import { Toast } from "vant";
 import { RadioGroup, Radio } from "vant";
 import { Checkbox, CheckboxGroup } from "vant";
+import { SwipeCell } from "vant";
+import { Card } from "vant";
 
 Vue.use(button);
 Vue.use(Swipe);
@@ -25,3 +27,5 @@ Vue.use(Radio);
 Vue.use(RadioGroup);
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
+Vue.use(SwipeCell);
+Vue.use(Card);

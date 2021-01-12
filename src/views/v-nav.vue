@@ -13,7 +13,7 @@
       <router-link tag="li" to="/shopcar" class="item">
         <span class="icon"
           ><i class="iconfont iconshopcar icon"></i>
-          <i class="num">{{ sortCount }}</i></span
+          <i class="num">{{ cartCount }}</i></span
         ><!--  cartCount -->
 
         <span>购物车</span>
@@ -27,26 +27,16 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
 export default {
-  data() {
-    return {
-      sortCount: 0,
-    };
+  computed: {
+    ...mapGetters(["cartCount"]),
   },
   created() {
-    this.isHaveList();
+    this.SET_CART_COUNT();
   },
   methods: {
-    isHaveList() {
-      if (
-        localStorage.getItem("storeList") === null || // null !== null，因此把null的情况放前面
-        localStorage.getItem("storeList") === undefined
-      ) {
-        this.sortCount = 0;
-      } else {
-        this.sortCount = Object.keys(this.$store.getters.storeList()).length;
-      }
-    },
+    ...mapMutations(["SET_CART_COUNT"]),
   },
 };
 </script>
