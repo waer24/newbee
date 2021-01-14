@@ -2,12 +2,16 @@
   <div class="cart-wrap">
     <v-header :title="name"></v-header>
     <div class="list-wrapper">
-      <scroll :scroll-data="list" class="scroll">
+      <scroll :scroll-data="storeList" class="scroll">
         <div class="list">
           <ul>
-            <li v-for="(item, index) in list" :key="item.shopId" ref="item">
-              <van-swipe-cell class="item" :before-close="onClose(item, index)"
-                ><!-- -->
+            <li
+              v-for="(item, index) in storeList"
+              :key="item.shopId"
+              ref="item"
+            >
+              <van-swipe-cell class="item"
+                ><!-- :before-close="onClose(item, index)"-->
                 <template>
                   <div class="item-inner">
                     <div class="checkbox">
@@ -32,9 +36,7 @@
                           ><i class="charc">￥</i>{{ item.price }}</span
                         >
                         <div class="btn-operator">
-                          <span
-                            class="reduce"
-                            @click="reduceQty(item.shopId, index)"
+                          <span class="reduce" @click="reduceQty(index)"
                             ><i class="iconfont iconreduce"></i
                           ></span>
                           <input
@@ -44,7 +46,7 @@
                             class="ipt"
                             :value="item.count"
                           />
-                          <span class="add" @click="addQty(item.shopId, index)"
+                          <span class="add" @click="addQty(index)"
                             ><i class="iconfont iconadd"></i
                           ></span>
                         </div>
@@ -73,8 +75,8 @@
         <div class="lf">
           <van-checkbox
             checked-color="#1baeae"
-            v-model="isAllChecked"
-            @click="checkAll()"
+            :value="isAllChecked"
+            @click="checkAll"
           ></van-checkbox>
           <span class="allselect">全选</span>
         </div>
@@ -99,88 +101,56 @@ import vHeader from "./../views/v-header";
 import vNav from "./../views/v-nav";
 import scroll from "./../views/scroll";
 import { Dialog, Toast } from "vant";
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
     return {
       name: "购物车",
-      isAllChecked: false, // 全选
-      list: Object.values(this.$store.getters.storeList()), // 购物车对象转数组,因为没有length属性，不能用array.from转化
-      sum: 0,
     };
   },
 
   computed: {
-    ...mapGetters(["shopId", "storeList"]),
+    ...mapGetters(["storeList", "sum", "isAllChecked"]),
+    /*   TIPS：   组件中v-model=“XXX”，而XXX是vuex state中的某个变量
+       html中 isAllChecked 是由v-model ，vuex中是单项流，v-model是vue中的双向绑定，但是在computed中只通过get获取参数值，
+    没有set无法改变参数值，因此增加set的方法 ，并将v-model改成:value*/
+    isAllChecked: {
+      get() {
+        return this.$store.getters.isAllChecked;
+      },
+      set(val) {
+        this.SET_IS_ALL_CHECKED(val);
+      },
+    },
   },
 
   methods: {
-    ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE", "SET_CART_COUNT"]),
-    addQty(shopId, index) {
-      if (this.list && this.list[index] && this.list[index].count < 5) {
-        this.list[index].count++;
-        if (this.list[index].isCheck) {
-          this.sum += this.list[index].price * this.list[index].count;
-        }
-      } else {
-        Toast.fail("主人，不能再加啦");
-      }
-      localStorage.setItem("storeList", JSON.stringify(this.list));
+    ...mapMutations([
+      "GET_CART_ADD",
+      "GET_CART_REDUCE",
+      "SET_CART_COUNT",
+      "GET_SUM",
+      "SET_IS_ALL_CHECKED",
+    ]),
+    ...mapActions(["saveCheckAll", "saveCheckOne"]),
 
-      return this.sum;
+    addQty(index) {
+      this.GET_CART_ADD(index);
     },
 
-    reduceQty(item, index) {
-      if (this.list && this.list[index] && this.list[index].count !== 1) {
-        this.list[index].count--;
-        if (this.list[index].isCheck) {
-          this.sum += this.list[index].price * this.list[index].count;
-        }
-      } else {
-        this.list[index].count = 1;
-        Toast.fail("主人，不能再少了");
-      }
-
-      localStorage.setItem("storeList", JSON.stringify(this.list));
+    reduceQty(index) {
+      this.GET_CART_REDUCE(index);
     },
+
     checkOne() {
-      this.sum = 0;
-      this.list.every((value) => {
-        // 只有所有的勾选，全选激活
-        if (value.isCheck) {
-          this.isAllChecked = true;
-          console.log(value.isCheck);
-        }
-      });
-      this.list.some((value) => {
-        // 只要一个不勾选，全选取消
-        if (value.isCheck === false) {
-          this.isAllChecked = false;
-        }
-      });
-      this.list.map((value) => {
-        if (value.isCheck) {
-          this.sum += value.price * value.count;
-        }
-      });
-
-      return this.sum;
+      this.saveCheckOne();
     },
     checkAll() {
-      console.log(this.list);
-      this.sum = 0;
-      if (this.isAllChecked) {
-        this.list.map((value) => {
-          value.isCheck = true;
-          this.sum += value.price * value.count;
-        });
-      } else {
-        this.list.map((value) => {
-          value.isCheck = false;
-        });
-      }
-      return this.sum;
+      console.log(this.storeList);
+      /* this.saveCheckAll({
+          isCheck:
+      }); */
     },
 
     onClose(item, index) {

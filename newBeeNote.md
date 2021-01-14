@@ -27,14 +27,23 @@
 
 2021/1/5-1-10
 
-1.            ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
+1.                     ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
     ...mapMutations(["GET_CART_ADD"], ["GET_CART_REDUCE"]),
     第二个错误，报错 GET_CART_REDUCE is not a function ,找错误很久没发现，非常低级的错误。第一个正确，
-2.  vue 数据不实时更新（数据更改了，但数据不实时更新），点击加减购物车数量. 蠢办法，重新赋值
-    1.  this.list = "";
-        this.list = Object.values(JSON.parse(localStorage.getItem("storeList")));
-    2.  类似问题：添加问题不更新： https://juejin.cn/post/6844903765951119368
-3.数据源不一致导致的点击问题
+2.  vue 数据不实时更新（数据更改了，但数据不实时更新），点击加减购物车数量. 蠢办法，重新赋值 1. this.list = "";
+    this.list = Object.values(JSON.parse(localStorage.getItem("storeList"))); 2. 类似问题：添加问题不更新： https://juejin.cn/post/6844903765951119368
+3.  数据源不一致导致的点击问题, 是取了 localstorage 的值之后，另一边又修改了 local 的值，并覆盖了原来的值
+
+2021/1/11-1/15
+
+1.  cart 页面右滑删除的时候，删除 item 时，无法删除单个 item，只能整个一起删除，要么用 substring 字符串截断，因为 localstorage 是一个整个的字符串，增加了很多无用功。且刷新之后，数据本来就不存在，还是改用 vuex 的 state 统一管理数据源
+2.  stateList 改用为[ ], 遇到的问题是如何判断 item 已经添加到 storeList 中，原来用对象可以直接比对 key 值。考虑对比循环中 value 的 shopId 和参数的 shopId，相同的话 return，不同则 push 到 storeList 中。遇到的问题是每次只要对比 shopId 不同时，都会 push 一次。导致同一个 item 要 push 很多次。询问王科提示，取一个标识位 flag，如果相同则 flag 改变，同时 return，但是依然没 get 到。下午时分，鬼使神差的用了 isDuplicate === true ? state.storeList.push(obj) : state.storeList; 才得到正确的值
+3.  以上反思：
+    1.  当结果可能需要不同的结果时，考虑标识位 + 三目取结果
+    2.  当每个 item 都循环时，考虑跳出当前循环取赋值
+    3.  当移除时，页面一片空白时，考虑是否作为一个整体删除了
+4.  购物车对象转数组,因为没有 length 属性，不能用 array.from 转化
+5.  gettersd 的调用需要用方法时，才保证每次都调用更新
 
 12/21-12-25
 TODO

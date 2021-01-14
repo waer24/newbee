@@ -1,4 +1,6 @@
 import * as types from "./mutation-types";
+import { ArrayDuplicate } from "./../common/js/utils";
+import { Toast } from "vant";
 const mutations = {
     [types.SET_SHOP_ID](state, id) {
         state.shopId = id;
@@ -8,9 +10,23 @@ const mutations = {
         state.storeList = list;
     },
 
+    // 计算总价
+    [types.GET_SUM](state, sum) {
+        state.sum = sum;
+    },
+
+    // 全选按钮设置
+    [types.SET_IS_ALL_CHECKED](state, isChecked) {
+        state.isAllChecked = isChecked;
+    },
+    // 单个item的选中设置
+    [types.SET_IS_CHECKED](state, isCheck) {
+        state.isCheck = isCheck;
+    },
+
     [types.SET_INIT_LIST](state, { shopId, name, price, img, isCheck }) {
-        //   let store = state.storeList[shopId] || {};
-        state.storeList[shopId] = {
+        // state.storeList[shopId] = {....} 带有key，value的形式,适用于storeList为对象
+        let obj = {
             count: 1,
             shopId: shopId,
             name: name,
@@ -18,58 +34,57 @@ const mutations = {
             img: img,
             isCheck: isCheck,
         };
-        // store = state.storeList[shopId];
-        localStorage.setItem("storeList", JSON.stringify(state.storeList));
+        let isDuplicate = true; // 是否存在重复的item
+        state.storeList.map((value) => {
+            if (value.shopId === shopId) {
+                isDuplicate = false;
+                return;
+            }
+        });
+        isDuplicate === true ? state.storeList.push(obj) : state.storeList;
+        //   console.log(state.storeList);
         return state.storeList;
     },
     [types.SET_CART_COUNT](state) {
-        if (
-            localStorage.getItem("storeList") === null || // null !== null，因此把null的情况放前面
-            localStorage.getItem("storeList") === undefined
-        ) {
-            console.log("没有数据啦");
-            return;
-        } else {
-            let list = JSON.parse(localStorage.getItem("storeList")); // 从localstorage中取值
-            // console.log(list);
-            // 重新赋值
-            state.cartCount = Object.keys(list).length; // 从localstorage中取值
-            // console.log("mutation---", state.cartCount);
+        if (state.storeList && state.storeList.length !== 0) {
+            state.cartCount = state.storeList.length;
+            // console.log(state.cartCount);
             return state.cartCount;
         }
     },
-    /*    需求要刷新后，保证添加的数量还在，从本地存取数据，不需要mutation传递了
-                         [types.GET_CART_ADD](state, { shopId }) {
-                                let list = JSON.parse(localStorage.getItem("storeList"));
-                                if (list && list[shopId]) {
-                                    list[shopId].count < 5 ?
-                                        list[shopId].count++
-                                        :
-                                        Toast.fail("主人，不能再加啦");
-                                }
-                                localStorage.setItem("storeList", JSON.stringify(list));
-                                // console.log("mutation:", list[shopId]);
-                                return list;
-                            },
-
-                            [types.GET_CART_REDUCE](state, { shopId }) {
-                                // state有隐形的用到，不能删除
-                                let list = JSON.parse(localStorage.getItem("storeList"));
-                                if (list && list[shopId]) {
-                                    // console.log(list[shopId]);
-                                    if (list[shopId].count === 1) {
-                                        list[shopId].count = 1;
-                                        Toast.fail("主人，不能再少了");
-                                        return;
-                                    } else {
-                                        list[shopId].count--;
-                                    }
-                                }
-
-                                localStorage.setItem("storeList", JSON.stringify(list));
-                                // console.log(list[shopId]);
-                                return list;
-                            }, */
+    [types.GET_CART_ADD](state, index) {
+        if (
+            state.storeList &&
+            state.storeList[index] &&
+            state.storeList[index].count < 5
+        ) {
+            state.storeList[index].count++;
+            if (state.storeList[index].isCheck) {
+                state.sum +=
+                    state.storeList[index].price * state.storeList[index].count;
+            }
+        } else {
+            Toast.fail("主人，不能再加啦");
+        }
+        return state.sum && state.storeList;
+    },
+    [types.GET_CART_REDUCE](state, index) {
+        if (
+            state.storeList &&
+            state.storeList[index] &&
+            state.storeList[index].count !== 1
+        ) {
+            state.storeList[index].count--;
+            if (state.storeList[index].isCheck) {
+                state.sum +=
+                    state.storeList[index].price * state.storeList[index].count;
+            }
+        } else {
+            state.storeList[index].count = 1;
+            Toast.fail("主人，不能再少了");
+        }
+        return state.sum && state.storeList;
+    },
 };
 
 export default mutations;

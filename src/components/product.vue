@@ -63,7 +63,7 @@
 <script>
 import vHeader from "./../views/v-header";
 import { goodsDetail } from "./../api/goods";
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import { Toast } from "vant";
 
 export default {
@@ -73,20 +73,20 @@ export default {
       goods: {},
       //  sortCount: 0,
       cartGoods: {}, // 产品页面的购物车
-      isCheck: false, // 定义购物车是否选中计费
     };
   },
   created() {
     this.getGoodsDetail();
-    this.SET_CART_COUNT();
+    // this.SET_CART_COUNT();
   },
 
   computed: {
-    ...mapGetters(["shopId", "storeList", "cartCount"]),
+    ...mapGetters(["storeList", "cartCount", "isCheck"]),
   },
 
   methods: {
-    ...mapMutations(["SET_INIT_LIST", "SET_CART_COUNT"]),
+    ...mapActions(["saveInitList"]),
+    ...mapMutations(["SET_CART_COUNT", "SET_IS_CHECKED"]),
     /*  isHaveList() {
       if (
         localStorage.getItem("storeList") === null || // null !== null，因此把null的情况放前面
@@ -110,24 +110,23 @@ export default {
     },
 
     addCart() {
-      console.log("storeList===", this.storeList());
+      // console.log("storeList===", this.storeList);
       //  Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值
-      // console.log("storeList", this.storeList());
-      if (this.storeList() && Object.values(this.storeList()).length !== 0) {
-        for (let key in this.storeList()) {
-          if (Number(key) === this.goods.goodsId) {
-            Toast.fail("已经添加过啦~");
+      if (this.storeList && this.storeList.length !== 0) {
+        this.storeList.map((value, index) => {
+          if (value.shopId === this.goods.goodsId) {
+            Toast.fail("主人，不能再加啦~");
           }
-        }
+        });
       }
-      this.SET_INIT_LIST({
+      this.saveInitList({
         name: this.goods.goodsName,
         shopId: this.goods.goodsId,
         price: this.goods.sellingPrice,
         img: this.goods.goodsCoverImg,
         isCheck: this.isCheck,
       });
-        this.SET_CART_COUNT(); // 重新计算购物车数量
+      this.SET_CART_COUNT();
     },
   },
   components: {
