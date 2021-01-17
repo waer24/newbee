@@ -16,12 +16,31 @@ const mutations = {
     },
 
     // 全选按钮设置
-    [types.SET_IS_ALL_CHECKED](state, isChecked) {
-        state.isAllChecked = isChecked;
+    [types.SET_IS_ALL_CHECKED](state) {
+        state.isAllChecked = !state.isAllChecked;
+        state.storeList.forEach((value) => {
+            value.isCheck = state.isAllChecked
+        })
     },
     // 单个item的选中设置
-    [types.SET_IS_CHECKED](state, isCheck) {
-        state.isCheck = isCheck;
+    [types.SET_IS_CHECKED](state, index) {
+        let isActiveChecked = true;
+        if (state.storeList[index]) {
+            state.storeList[index].isCheck = !state.storeList[index].isCheck;
+
+            /*  for (let item of state.storeList) {
+                 if (!item.isCheck) {
+                     isActiveChecked = false;
+                     break;
+                 }
+             } */
+            state.isAllChecked = !state.storeList.some(item => !item.isCheck)
+            //   ！！！ isActiveChecked ? state.isAllChecked = true : state.isAllChecked = false;
+            // state.isAllChecked = isActiveChecked
+
+        }
+
+        return state;
     },
 
     [types.SET_INIT_LIST](state, { shopId, name, price, img, isCheck }) {
@@ -34,14 +53,15 @@ const mutations = {
             img: img,
             isCheck: isCheck,
         };
-        let isDuplicate = true; // 是否存在重复的item
+        let isDuplicate = false; // 是否存在重复的item
         state.storeList.map((value) => {
             if (value.shopId === shopId) {
-                isDuplicate = false;
+                isDuplicate = true;
                 return;
             }
         });
-        isDuplicate === true ? state.storeList.push(obj) : state.storeList;
+        !isDuplicate && state.storeList.push(obj)
+
         //   console.log(state.storeList);
         return state.storeList;
     },

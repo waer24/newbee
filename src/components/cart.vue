@@ -16,10 +16,10 @@
                   <div class="item-inner">
                     <div class="checkbox">
                       <van-checkbox
-                        v-model="item.isCheck"
+                        :value="item.isCheck"
                         :name="item.shopId"
                         checked-color="#1baeae"
-                        @click="checkOne"
+                        @click="checkOne(index)"
                       ></van-checkbox>
                       <!-- name 等价于 普通input框中的value -->
                     </div>
@@ -143,19 +143,17 @@ export default {
       this.GET_CART_REDUCE(index);
     },
 
-    checkOne() {
-      this.saveCheckOne();
+    checkOne(index) {
+      this.saveCheckOne(index);
     },
     checkAll() {
-      console.log(this.storeList);
-      /* this.saveCheckAll({
-          isCheck:
-      }); */
+      // console.log(this.storeList);
+      this.saveCheckAll();
     },
 
     onClose(item, index) {
       // instance 是SwipeCell 实例，用于调用实例方法
-      return function({ position, instance }) {
+      return function ({ position, instance }) {
         switch (position) {
           case "outside":
             instance.close();
