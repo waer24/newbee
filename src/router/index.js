@@ -16,6 +16,7 @@ const routes = [{
             import ("./../components/home.vue"),
         meta: {
             index: 1, // 添加 meta 属性，约定 1 为第一级
+            keepAlive: true, // 是否需要缓存
         },
     },
     {

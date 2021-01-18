@@ -19,7 +19,7 @@
                         :value="item.isCheck"
                         :name="item.shopId"
                         checked-color="#1baeae"
-                        @click="checkOne(index)"
+                        @click="a(index)"
                       ></van-checkbox>
                       <!-- name 等价于 普通input框中的value -->
                     </div>
@@ -138,14 +138,13 @@ export default {
     addQty(index) {
       this.GET_CART_ADD(index);
     },
-
+a(index) {
+    this.saveCheckOne(index)
+},
     reduceQty(index) {
       this.GET_CART_REDUCE(index);
     },
 
-    checkOne(index) {
-      this.saveCheckOne(index);
-    },
     checkAll() {
       // console.log(this.storeList);
       this.saveCheckAll();
@@ -153,7 +152,7 @@ export default {
 
     onClose(item, index) {
       // instance 是SwipeCell 实例，用于调用实例方法
-      return function ({ position, instance }) {
+      return function({ position, instance }) {
         switch (position) {
           case "outside":
             instance.close();

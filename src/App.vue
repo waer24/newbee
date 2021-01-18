@@ -1,19 +1,20 @@
 <template>
   <div id="app">
-    <transition :name="transitionName">
-      <router-view class="router-view"></router-view>
-    </transition>
+    <keep-alive v-if="$route.meta.keepAlive">
+      <transition :name="transitionName">
+        <router-view class="router-view"></router-view> </transition
+    ></keep-alive>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      transitionName: 'slide-left',
+      transitionName: "slide-left",
       isShowNav: true,
-      showNanList: ['/', 'home', 'category', 'cart', 'user'], // 该变量为需要导航栏的数组
+      showNanList: ["/", "home", "category", "cart", "user"], // 该变量为需要导航栏的数组
     };
   },
 
@@ -21,12 +22,12 @@ export default {
     $route(to, from) {
       if (to.meta.index > from.meta.index) {
         // 下一级到上一级
-        this.transitionName = 'slide-left';
+        this.transitionName = "slide-left";
       } else if (to.meta.index < from.meta.index) {
         // 上一级到下一级
-        this.transitionName = 'slide-right';
+        this.transitionName = "slide-right";
       } else {
-        this.transitionName = ''; // 同级
+        this.transitionName = ""; // 同级
       }
       // 判断是否显示底部导航栏
       this.showNanList.includes(to.path)
@@ -38,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './common/style/mixin.scss';
+@import "./common/style/mixin.scss";
 #app {
   color: $global-font-color;
 }
