@@ -1,9 +1,17 @@
 <template>
   <div id="app">
-    <keep-alive v-if="$route.meta.keepAlive">
-      <transition :name="transitionName">
-        <router-view class="router-view"></router-view> </transition
-    ></keep-alive>
+    <transition :name="transitionName">
+      <router-view class="router-view"></router-view>
+    </transition>
+
+    <!-- <transition :name="transitionName">
+      <keep-alive v-if="$route.meta.keepAlive">
+        <router-view class="router-view"></router-view>
+      </keep-alive>
+      <keep-alive v-if="!$route.meta.keepAlive">
+        <router-view class="router-view"></router-view>
+      </keep-alive>
+    </transition> -->
   </div>
 </template>
 
@@ -19,7 +27,7 @@ export default {
   },
 
   watch: {
-    $route(to, from) {
+    $route(to, from, next) {
       if (to.meta.index > from.meta.index) {
         // 下一级到上一级
         this.transitionName = "slide-left";

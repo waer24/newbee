@@ -63,22 +63,22 @@ export default {
       if (this.listenScroll) {
         let _this = this;
         this.scroll.on("scroll", (pos) => {
-          _this.$emit("scrollEvent", pos); // 当前的this是指向scroll组件实例,所有需要事先保存this，让它指向vue实例/ emit传递的函数名称如果和on的名称一致，会导致冲突
+          _this.$emit("scrollevent", pos); // 当前的this是指向scroll组件实例,所有需要事先保存this，让它指向vue实例/ emit传递的函数名称如果和on的名称一致，会导致冲突
         });
       }
       if (this.pullingUp) {
         // 如果触发了pullup 就绑定scrollend事件
-        this.scroll.on("scrollEnd", () => {
+        this.scroll.on("scrollend", () => {
           if (this.scroll.y <= this.scroll.maxScrollY + 50) {
             // maxScrollY为scroll的属性，为负值， + 50为缓冲，即保证前者总是小于后者
-            this.$emit("scrollEndEvent"); // 这只是名称，传递出去
+            this.$emit("scrollendevent"); // 这只是名称，传递出去
           }
         });
       }
       if (this.beforeScroll) {
         // 增加search的blur情况
         this.scroll.on("beforeScrollStart", () => {
-          this.$emit("beforeScrollStartEvent");
+          this.$emit("beforescrollstartevent");
         });
       }
     },

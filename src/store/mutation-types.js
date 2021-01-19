@@ -15,3 +15,5 @@ export const GET_SUM = "GET_SUM";
 export const SET_IS_ALL_CHECKED = "SET_IS_ALL_CHECKED";
 
 export const SET_IS_CHECKED = "SET_IS_CHECKED";
+
+export const SET_ITEM_COUNT = "SET_ITEM_COUNT";

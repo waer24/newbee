@@ -40,7 +40,7 @@
           <scroll
             :listenScroll="listenScroll"
             :scroll-data="categoryList"
-            @scrollEvent="scrollList"
+            @scrollevent="scrollList"
             :probeType="probeType"
             class="scroll-rt"
             ref="scroll"

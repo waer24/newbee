@@ -8,9 +8,8 @@ import md5 from "js-md5"; // 全局引入MD5
 
 Vue.config.productionTip = false;
 Vue.prototype.$md5 = md5;
-
-new Vue({
-    router,
-    store,
-    render: (h) => h(App),
+var a = new Vue({
+  router,
+  store,
+  render: (h) => h(App),
 }).$mount("#app");

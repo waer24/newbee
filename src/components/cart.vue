@@ -19,7 +19,7 @@
                         :value="item.isCheck"
                         :name="item.shopId"
                         checked-color="#1baeae"
-                        @click="a(index)"
+                        @click="saveCheckOne(index)"
                       ></van-checkbox>
                       <!-- name 等价于 普通input框中的value -->
                     </div>
@@ -40,11 +40,11 @@
                             ><i class="iconfont iconreduce"></i
                           ></span>
                           <input
+                            ref="ipt"
                             type="number"
-                            aria-valuenow="4"
-                            aria-valuemin="1"
                             class="ipt"
                             :value="item.count"
+                            @blur="SET_ITEM_COUNT(index, 3)"
                           />
                           <span class="add" @click="addQty(index)"
                             ><i class="iconfont iconadd"></i
@@ -127,20 +127,22 @@ export default {
 
   methods: {
     ...mapMutations([
+      "SET_ITEM_COUNT",
       "GET_CART_ADD",
       "GET_CART_REDUCE",
       "SET_CART_COUNT",
       "GET_SUM",
       "SET_IS_ALL_CHECKED",
     ]),
-    ...mapActions(["saveCheckAll", "saveCheckOne"]),
+    ...mapActions(["saveCheckAll", "saveCheckOne", "saveCount"]),
 
+    changeCount(index) {
+      this.SET_ITEM_COUNT(index, Number(this.$refs.ipt[index].value));
+      console.log("print--cart", Number(this.$refs.ipt[index].value));
+    },
     addQty(index) {
       this.GET_CART_ADD(index);
     },
-a(index) {
-    this.saveCheckOne(index)
-},
     reduceQty(index) {
       this.GET_CART_REDUCE(index);
     },

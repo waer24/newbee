@@ -27,7 +27,7 @@
 
 2021/1/5-1-10
 
-1.                     ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
+1.                      ...mapMutations(["GET_CART_ADD", "GET_CART_REDUCE"]),
     ...mapMutations(["GET_CART_ADD"], ["GET_CART_REDUCE"]),
     第二个错误，报错 GET_CART_REDUCE is not a function ,找错误很久没发现，非常低级的错误。第一个正确，
 2.  vue 数据不实时更新（数据更改了，但数据不实时更新），点击加减购物车数量. 蠢办法，重新赋值 1. this.list = "";
@@ -45,8 +45,8 @@
 4.  购物车对象转数组,因为没有 length 属性，不能用 array.from 转化
 5.  gettersd 的调用需要用方法时，才保证每次都调用更新
 
-1. map用于返回一个新数组，for ...of满足找到新条件，停止循环
-2. 去item要想到index
+6.  map 用于返回一个新数组，for ...of 满足找到新条件，停止循环
+7.  去 item 要想到 index
 
 12/21-12-25
 TODO
@@ -54,3 +54,4 @@ TODO
 1. 加入购物车的频繁点击 ， this.storeList()的代码优化
 2. checkOne() 函数优化，只用一个循环完成?
 3. cart.vue checkOne()函数是否可以优化
+4. 加入 keep-alive 保证部分可以缓存
