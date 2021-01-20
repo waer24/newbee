@@ -17,3 +17,5 @@ export const SET_IS_ALL_CHECKED = "SET_IS_ALL_CHECKED";
 export const SET_IS_CHECKED = "SET_IS_CHECKED";
 
 export const SET_ITEM_COUNT = "SET_ITEM_COUNT";
+
+export const GET_CART_DELETE = "GET_CART_DELETE"

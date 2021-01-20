@@ -10,7 +10,7 @@
               :key="item.shopId"
               ref="item"
             >
-              <van-swipe-cell class="item" :before-close="onClose(item, index)"
+              <van-swipe-cell class="item" :before-close="onClose(index)"
                 ><!-- -->
                 <template>
                   <div class="item-inner">
@@ -36,19 +36,20 @@
                           ><i class="charc">￥</i>{{ item.price }}</span
                         >
                         <div class="btn-operator">
-                          <span class="reduce" @click="reduceQty(index)"
+                          <span class="reduce" @click="saveCartReduce(index)"
                             ><i class="iconfont iconreduce"></i
                           ></span>
                           <input
-                            ref="ipt"
+                            ref="input"
                             type="number"
                             class="ipt"
                             :value="item.count"
                             @blur="changeCount(index)"
                           />
-                          <span class="add" @click="addQty(index)"
+                          <span class="add" @click="saveCartAdd(index)"
                             ><i class="iconfont iconadd"></i
                           ></span>
+                          <button @click="saveCartDelete">ffff</button>
                         </div>
                       </div>
                     </div>
@@ -136,24 +137,28 @@ export default {
       "GET_SUM",
       "SET_IS_ALL_CHECKED",
     ]),
-    ...mapActions(["saveCheckAll", "saveCheckOne", "saveItemCount"]),
+    ...mapActions([
+      "saveCheckAll",
+      "saveCheckOne",
+      "saveCartAdd",
+      "saveCartReduce",
+      "saveChangeCount",
+      "saveCartDelete",
+    ]),
 
-    changeCount(item, index) {
-      this.saveItemCount(index, Number(this.$refs.ipt[index].value));
+    changeCount(index) {
+      this.saveChangeCount({
+        index,
+        val: Number(this.$refs.input[index].value),
+      });
       // this.SET_ITEM_COUNT(index, Number(this.$refs.ipt[index].value));
       // console.log("print--", this.$refs.ipt[index].value);
     },
 
-    addQty(index) {
-      this.GET_CART_ADD(index);
-    },
-    reduceQty(index) {
-      this.GET_CART_REDUCE(index);
-    },
-
-    onClose(item, index) {
+    onClose(index) {
       // instance 是SwipeCell 实例，用于调用实例方法
-      return function({ position, instance }) {
+      const _this = this
+      return function ({ position, instance }) {
         switch (position) {
           case "outside":
             instance.close();
@@ -163,7 +168,7 @@ export default {
               message: "主人， 确定删除咩？",
             })
               .then(() => {
-                console.log("print--", instance);
+                _this.saveCartDelete(index); // is not a function
                 instance.close();
               })
 
