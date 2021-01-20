@@ -10,8 +10,8 @@
               :key="item.shopId"
               ref="item"
             >
-              <van-swipe-cell class="item"
-                ><!-- :before-close="onClose(item, index)"-->
+              <van-swipe-cell class="item" :before-close="onClose(item, index)"
+                ><!-- -->
                 <template>
                   <div class="item-inner">
                     <div class="checkbox">
@@ -44,7 +44,7 @@
                             type="number"
                             class="ipt"
                             :value="item.count"
-                            @blur="SET_ITEM_COUNT(index, 3)"
+                            @blur="changeCount(index)"
                           />
                           <span class="add" @click="addQty(index)"
                             ><i class="iconfont iconadd"></i
@@ -76,7 +76,7 @@
           <van-checkbox
             checked-color="#1baeae"
             :value="isAllChecked"
-            @click="checkAll"
+            @click="saveCheckAll"
           ></van-checkbox>
           <span class="allselect">全选</span>
         </div>
@@ -107,6 +107,7 @@ export default {
   data() {
     return {
       name: "购物车",
+      iptVal: "",
     };
   },
 
@@ -115,6 +116,7 @@ export default {
     /*   TIPS：   组件中v-model=“XXX”，而XXX是vuex state中的某个变量
        html中 isAllChecked 是由v-model ，vuex中是单项流，v-model是vue中的双向绑定，但是在computed中只通过get获取参数值，
     没有set无法改变参数值，因此增加set的方法 ，并将v-model改成:value*/
+
     isAllChecked: {
       get() {
         return this.$store.getters.isAllChecked;
@@ -134,22 +136,19 @@ export default {
       "GET_SUM",
       "SET_IS_ALL_CHECKED",
     ]),
-    ...mapActions(["saveCheckAll", "saveCheckOne", "saveCount"]),
+    ...mapActions(["saveCheckAll", "saveCheckOne", "saveItemCount"]),
 
-    changeCount(index) {
-      this.SET_ITEM_COUNT(index, Number(this.$refs.ipt[index].value));
-      console.log("print--cart", Number(this.$refs.ipt[index].value));
+    changeCount(item, index) {
+      this.saveItemCount(index, Number(this.$refs.ipt[index].value));
+      // this.SET_ITEM_COUNT(index, Number(this.$refs.ipt[index].value));
+      // console.log("print--", this.$refs.ipt[index].value);
     },
+
     addQty(index) {
       this.GET_CART_ADD(index);
     },
     reduceQty(index) {
       this.GET_CART_REDUCE(index);
-    },
-
-    checkAll() {
-      // console.log(this.storeList);
-      this.saveCheckAll();
     },
 
     onClose(item, index) {
@@ -164,11 +163,8 @@ export default {
               message: "主人， 确定删除咩？",
             })
               .then(() => {
-                // item.style.display = "none";
-                let list = JSON.parse(localStorage.getItem("storeList"));
-                //console.log(list[index]);
-                localStorage.removeItem(list[index]);
-                this.SET_CART_COUNT();
+                console.log("print--", instance);
+                instance.close();
               })
 
               .catch((e) => {

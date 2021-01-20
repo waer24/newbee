@@ -11,13 +11,17 @@ export const saveInitList = (
 };
 
 export const saveCheckAll = ({ state, commit }) => {
-  commit(types.GET_SUM, 0);
   let isAllChecked = state.isAllChecked;
   commit(types.SET_IS_ALL_CHECKED, isAllChecked);
-  return state.sum;
+  commit(types.GET_SUM);
 };
 
 export const saveCheckOne = ({ state, commit }, index) => {
-  commit(types.GET_SUM, 0); // 计算之前先清除总价数量
+  let isAllChecked = state.isAllChecked;
   commit(types.SET_IS_CHECKED, index);
+  commit(types.GET_SUM);
+};
+
+export const saveItemCount = ({ state, commit }, index, val) => {
+  commit(types.SET_ITEM_COUNT, index, val);
 };

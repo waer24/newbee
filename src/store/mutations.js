@@ -13,37 +13,34 @@ const mutations = {
   [types.SET_ITEM_COUNT](state, index, val) {
     if (state.storeList[index]) {
       state.storeList[index].count = val;
-      console.log("mutation print--", state.storeList[index]);
     }
   },
-  // 计算总价
-  [types.GET_SUM](state, sum) {
-    state.sum = sum;
+  // 计算选中item的总价
+  [types.GET_SUM](state) {
+    state.sum = 0;
+    for (let value of state.storeList) {
+      if (value.isCheck) {
+        state.sum += value.count * value.price;
+      }
+    }
+    if (!state.isAllChecked) {
+      state.sum = 0;
+    }
+    return state.sum;
+  },
+
+  // 单选设置
+  [types.SET_IS_CHECKED](state, index) {
+    if (state.storeList && state.storeList[index]) {
+      state.storeList[index].isCheck = !state.storeList[index].isCheck;
+      state.isAllChecked = !state.storeList.some((item) => !item.isCheck); // some 只要一个item满足条件即可
+    }
   },
 
   // 全选设置
   [types.SET_IS_ALL_CHECKED](state) {
     state.sum = 0;
     state.isAllChecked = !state.isAllChecked;
-    state.storeList.forEach((value) => {
-      value.isCheck = state.isAllChecked;
-      state.sum += value.price * value.count;
-    });
-    if (!state.isAllChecked) {
-      state.sum = 0;
-    }
-  },
-  // 单选设置
-  [types.SET_IS_CHECKED](state, index) {
-    if (state.storeList && state.storeList[index]) {
-      state.storeList[index].isCheck = !state.storeList[index].isCheck;
-      state.isAllChecked = !state.storeList.some((item) => !item.isCheck); // some 只要一个item满足条件即可
-      for (let i in state.storeList) {
-        if (state.storeList[i].isCheck) {
-          state.sum += state.storeList[i].count * state.storeList[i].price;
-        }
-      }
-    }
   },
 
   // 购物车初始化
@@ -72,7 +69,7 @@ const mutations = {
   [types.SET_CART_COUNT](state) {
     if (state.storeList && state.storeList.length !== 0) {
       state.cartCount = state.storeList.length;
-      // console.log(state.cartCount);
+      console.log(state.cartCount);
       return state.cartCount;
     }
   },
@@ -84,6 +81,7 @@ const mutations = {
       state.storeList[index] &&
       state.storeList[index].count < 5
     ) {
+      state.sum = 0;
       state.storeList[index].count++;
       if (state.storeList[index].isCheck) {
         state.sum +=
@@ -102,6 +100,7 @@ const mutations = {
       state.storeList[index] &&
       state.storeList[index].count !== 1
     ) {
+      state.sum = 0;
       state.storeList[index].count--;
       if (state.storeList[index].isCheck) {
         state.sum +=
