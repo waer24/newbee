@@ -49,7 +49,6 @@
                           <span class="add" @click="saveCartAdd(index)"
                             ><i class="iconfont iconadd"></i
                           ></span>
-                          <button @click="saveCartDelete">ffff</button>
                         </div>
                       </div>
                     </div>
@@ -86,7 +85,12 @@
           <p class="num">{{ sum }}</p>
         </div>
 
-        <van-button type="primary" color="#1baeae" round class="rt"
+        <van-button
+          type="primary"
+          color="#1baeae"
+          round
+          class="rt"
+          @click="goOrder"
           >结算</van-button
         >
       </div>
@@ -108,7 +112,6 @@ export default {
   data() {
     return {
       name: "购物车",
-      iptVal: "",
     };
   },
 
@@ -145,20 +148,23 @@ export default {
       "saveChangeCount",
       "saveCartDelete",
     ]),
+    goOrder() {
+      this.$router.push({
+        path: "/create-order",
+      });
+    },
 
     changeCount(index) {
       this.saveChangeCount({
         index,
         val: Number(this.$refs.input[index].value),
       });
-      // this.SET_ITEM_COUNT(index, Number(this.$refs.ipt[index].value));
-      // console.log("print--", this.$refs.ipt[index].value);
     },
 
     onClose(index) {
       // instance 是SwipeCell 实例，用于调用实例方法
-      const _this = this
-      return function ({ position, instance }) {
+      const _this = this;
+      return function({ position, instance }) {
         switch (position) {
           case "outside":
             instance.close();
