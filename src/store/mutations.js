@@ -47,8 +47,10 @@ const mutations = {
   // 全选设置
   [types.SET_IS_ALL_CHECKED](state) {
     state.isAllChecked = !state.isAllChecked;
-    for (let value of state.storeList) {
-      value.isCheck = !value.isCheck;
+    if (state.isAllChecked) {
+      for (let value of state.storeList) {
+        value.isCheck = true;
+      }
     }
   },
 

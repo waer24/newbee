@@ -57,9 +57,7 @@ const routes = [
   {
     path: "/user",
     name: "user",
-    component: () =>
-      // import ("./../components/user.vue"),
-      import("./../views/login.vue"),
+    component: () => import("./../components/user.vue"),
     meta: {
       index: 1, // 添加 meta 属性，约定 1 为第一级
       // keepAlive: true,
@@ -83,7 +81,7 @@ const routes = [
     path: "/create-order",
     name: "create-order",
     component: () => import("./../components/create-order.vue"),
-    meta: { index: 3 },
+    meta: { index: 4 },
   },
 ];
 
